@@ -3,40 +3,40 @@
 @{
     ViewBag.Title = "Index";
 }
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        <div class="row">
-            <div class="col-md-12">
-                @Html.ActionLink("Adicionar nova categoria", "Adicionar", null, new { @class = "btn btn-info" })
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("Adicionar nova categoria", "Add", null, new { @class = "btn btn-info btn-lg" })
         </div>
-        <table class="table">
+    </div>
+    <table class="table text-size h3">
+        <tr>
+            <th>
+                <p> Nome da Categoria</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryDescription)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.CategoryName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CategoryDescription)
-                </th>
-                <th></th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryDescription)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-info btn-lg " })
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-lg" })
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.Id }, new { @class = "btn btn-info btn-lg" })
+                </td>
             </tr>
+        }
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CategoryName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CategoryDescription)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-info " })
-                        @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Deletar", "Delete", new { id = item.Id }, new { @class = "btn btn-info" })
-                    </td>
-                </tr>
-            }
-
-
-        </table>
+    </table>
+</div>

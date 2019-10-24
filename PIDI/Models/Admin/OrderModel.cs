@@ -16,7 +16,7 @@ namespace PIDI.Models
         public string cpf { get; set; }
 
         [BsonElement("dtOrder")]
-        public string DtOrder { get; set; }
+        public string dateOrder { get; set; }
 
         [BsonElement("paymentType")]
         public string paymentType { get; set; }

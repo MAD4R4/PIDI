@@ -61,7 +61,7 @@ namespace PIDI.Models
             else
             {
                 //TESTAR
-                List<ProductModel> products = productCollection.AsQueryable<ProductModel>().OrderByDescending(x => (x.Categoria.CategoryName == category.CategoryName)).ToList();
+                List<ProductModel> products = productCollection.AsQueryable<ProductModel>().OrderByDescending(x => (x.Category.CategoryName == category.CategoryName)).ToList();
                 var LimitedList = products.OrderByDescending(x => x.ProductName).Take(quantity);
                 return products;
             }

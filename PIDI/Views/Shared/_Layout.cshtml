@@ -24,7 +24,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="@Url.Action("Index", "Home")"><h1>Home</h1></a>
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img src="~/img/Logo.png" alt="img/alt.png"/></a> <h1 class="text-white-50">JC Sublimações</h1> 
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -39,8 +39,8 @@
                     }
                     else
                     {
-                        <li style="font-size:20px">@Html.ActionLink("Logar", "Login", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
-                        <li style="font-size:20px">@Html.ActionLink("Cadastrar", "Registration", "User", new { area = "User" },  new { @class = "nav-link" })</li>
+                        <li style="font-size:20px">@Html.ActionLink("Login", "Login", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+                        <li style="font-size:20px">@Html.ActionLink("Cadastro", "Registration", "User", new { area = "User" }, new { @class = "nav-link" })</li>
 
                     }
                     <li style="font-size:20px">@Html.ActionLink("Carrinho", "Index", "ShoppingCart", new { area = "ShoppingCart" }, new { @class = "nav-link" })</li>
@@ -54,11 +54,14 @@
 
     @RenderBody()
 
+
     <script src="~/teste/vendor/jquery/jquery.min.js"></script>
     <script src="~/teste/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
 </body>
+
 </html>

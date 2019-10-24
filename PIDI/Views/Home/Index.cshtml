@@ -34,15 +34,15 @@
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
                                 <a href='@Url.Action("OrderNow", "ShoppingCart", new { area = "ShoppingCart" , id = item.Id})'><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                    <div class="card-body">
+                                <div class="card-body">
                                     <h4 class="card-title">
                                         <a href="#">@item.ProductName</a>
                                     </h4>
                                     <h5>R$@item.Preco</h5>
                                     <p class="card-text">@item.ProductDescription</p>
-                                    </div>
+                                </div>
                                 <div class="card-footer">
-                                    @Html.ActionLink("Adicionar Carrinho", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info " })
+                                    @Html.ActionLink("Adicionar ao carrinho", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info " })
                                     @Html.ActionLink("Comprar", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info " })
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
 </div>
 <!-- /.container -->
 <!-- Footer -->
-<footer class="py-5 bg-dark">
+<footer class="py-5 bg-dark footer navbar-fixed-bottom">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
     </div>
