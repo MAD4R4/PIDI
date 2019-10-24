@@ -1,0 +1,34 @@
+﻿@using PIDI.Models.Commom;
+@using PIDI.App_Start;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table border="1">
+    <tr>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Quantidade</th>
+        <th>SubTotal</th>
+    </tr>
+    @if (SessionManager.ReturnSessionObject("Cart") != null)
+    {
+        foreach (var item in (List<CartModel>)SessionManager.ReturnSessionObject("Cart"))
+        {
+            <tr>
+                <th>@item.product.ProductName</th>
+                <th>@item.product.Preco</th>
+                <th>@item.Quantity</th>
+                <th>@(String.Format("{0:N0}", item.product.Preco * item.Quantity))</th>
+            </tr>
+        }
+    }
+
+
+</table>

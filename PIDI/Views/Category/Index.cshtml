@@ -1,0 +1,42 @@
+﻿@model IEnumerable<PIDI.Models.CategoryModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                @Html.ActionLink("Adicionar nova categoria", "Adicionar", null, new { @class = "btn btn-info" })
+            </div>
+        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CategoryDescription)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryDescription)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-info " })
+                        @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Deletar", "Delete", new { id = item.Id }, new { @class = "btn btn-info" })
+                    </td>
+                </tr>
+            }
+
+
+        </table>
