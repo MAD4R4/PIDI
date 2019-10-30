@@ -98,8 +98,8 @@ namespace PIDI.Models
                 // TODO: Add update logic here
                 var filter = Builders<CategoryModel>.Filter.Eq("_id", ObjectId.Parse(id));
                 var update = Builders<CategoryModel>.Update
-                    .Set("categoryName", category.CategoryName)
-                    .Set("categoryDescripton", category.CategoryDescription);
+                    .Set("CategoryName", category.CategoryName)
+                    .Set("CategoryDescription", category.CategoryDescription);
                 var result = categoryCollection.UpdateOne(filter, update);
                 return RedirectToAction("Index");
             }
