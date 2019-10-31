@@ -166,7 +166,7 @@ namespace PIDI.Models
             return (product);
         }
 
-        public ActionResult SearhcProduct(string productToFind)
+        public ActionResult SearchProduct(string productToFind)
         {
             var allProducts = GetProducts(all:true);
             var products = new List<ProductModel>();
