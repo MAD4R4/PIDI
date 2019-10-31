@@ -30,7 +30,7 @@
                 <input type="text" class="form-control" id ="search" placeholder="Pesquisar produtos" aria-label="Recipient's username" aria-describedby="button-addon2">
                 <div class="input-group-append">
                     @*<button class="btn btn-outline-secondary font-weight-bold text-white-50" type="button" id="button-addon2">Buscar</button>*@
-                    @Html.ActionLink("Buscar", "SearhcProduct", "Product", new { area = "Product" }, new { @class = "btn btn-outline-secondary font-weight-bold text-white-50" , @productToFind="bbb"})
+                    @Html.ActionLink("Buscar", "SearhcProduct", "Product", new { area = "Product" , @productToFind="bbb"}, new { @class = "btn btn-outline-secondary font-weight-bold text-white-50"})
                 </div>
             </div>
 

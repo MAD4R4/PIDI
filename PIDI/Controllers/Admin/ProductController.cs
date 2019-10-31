@@ -170,14 +170,12 @@ namespace PIDI.Models
         {
             var allProducts = GetProducts(all:true);
             var products = new List<ProductModel>();
-            var minValue = 5;
+            var minValue = .4f;
 
-            if (productToFind == null)
-                productToFind = "bbb";
             for (int i = 0; i < allProducts.Count; i++)
             {
                 var target = allProducts[i];
-                var matchPoints = CheckStringMatchScore(productToFind, target.ProductName);
+                var matchPoints = CalculateSimilarity(productToFind, target.ProductName);
 
                 if (matchPoints > minValue)
                     products.Add(target);
@@ -192,49 +190,57 @@ namespace PIDI.Models
         /// <param name="s"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static int CheckStringMatchScore(string s, string t)
+        public static int ComputeLevenshteinDistance(string source, string target)
         {
-            int n = s.Length;
-            int m = t.Length;
-            int[,] d = new int[n + 1, m + 1];
+            if ((source == null) || (target == null)) return 0;
+            if ((source.Length == 0) || (target.Length == 0)) return 0;
+            if (source == target) return source.Length;
+
+            int sourceWordCount = source.Length;
+            int targetWordCount = target.Length;
 
             // Step 1
-            if (n == 0)
-            {
-                return m;
-            }
+            if (sourceWordCount == 0)
+                return targetWordCount;
 
-            if (m == 0)
-            {
-                return n;
-            }
+            if (targetWordCount == 0)
+                return sourceWordCount;
+
+            int[,] distance = new int[sourceWordCount + 1, targetWordCount + 1];
 
             // Step 2
-            for (int i = 0; i <= n; d[i, 0] = i++)
-            {
-            }
+            for (int i = 0; i <= sourceWordCount; distance[i, 0] = i++) ;
+            for (int j = 0; j <= targetWordCount; distance[0, j] = j++) ;
 
-            for (int j = 0; j <= m; d[0, j] = j++)
+            for (int i = 1; i <= sourceWordCount; i++)
             {
-            }
-
-            // Step 3
-            for (int i = 1; i <= n; i++)
-            {
-                //Step 4
-                for (int j = 1; j <= m; j++)
+                for (int j = 1; j <= targetWordCount; j++)
                 {
-                    // Step 5
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
+                    // Step 3
+                    int cost = (target[j - 1] == source[i - 1]) ? 0 : 1;
 
-                    // Step 6
-                    d[i, j] = Math.Min(
-                        Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
-                        d[i - 1, j - 1] + cost);
+                    // Step 4
+                    distance[i, j] = Math.Min(Math.Min(distance[i - 1, j] + 1, distance[i, j - 1] + 1), distance[i - 1, j - 1] + cost);
                 }
             }
-            // Step 7
-            return d[n, m];
+
+            return distance[sourceWordCount, targetWordCount];
+        }
+
+        /// <summary>
+        /// Calculate percentage similarity of two strings
+        /// <param name="source">Source String to Compare with</param>
+        /// <param name="target">Targeted String to Compare</param>
+        /// <returns>Return Similarity between two strings from 0 to 1.0</returns>
+        /// </summary>
+        double CalculateSimilarity(string source, string target)
+        {
+            if ((source == null) || (target == null)) return 0.0;
+            if ((source.Length == 0) || (target.Length == 0)) return 0.0;
+            if (source == target) return 1.0;
+
+            int stepsToSame = ComputeLevenshteinDistance(source, target);
+            return (1.0 - ((double)stepsToSame / (double)Math.Max(source.Length, target.Length)));
         }
     }
 }
