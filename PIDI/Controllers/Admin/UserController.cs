@@ -31,12 +31,13 @@ namespace PIDI.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registration(UserModel user)
+        public ActionResult Registration(UserModel user , string roleName = "user")
         {
             var query = userCollection.AsQueryable<UserModel>().FirstOrDefault(x => x.cpf == user.cpf || x.email == user.email);
             // TODO: Add insert logic here
             if (query == null)
             {
+                user.Perfil = roleName;
                 userCollection.InsertOne(user);
                 return RedirectToAction("Index", "Home");
             }
@@ -51,6 +52,20 @@ namespace PIDI.Controllers.Admin
             }
         }
 
+        public void CreateDefaultAdminAccount()
+        {
+            UserModel user = new UserModel();
+            user.email = "admin@admin.com";
+            user.senha = "admin";
+
+            var query = userCollection.AsQueryable<UserModel>().FirstOrDefault(x => x.email == user.email);
+            // TODO: Add insert logic here
+            if (query == null)
+            {
+                user.Perfil = "Administrador";
+                userCollection.InsertOne(user);
+            }
+        }
 
     }
 }

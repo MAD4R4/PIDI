@@ -59,5 +59,9 @@ namespace PIDI.Models
         [DataType(DataType.Password)]
 
         public string ConfirmPassword { get; set; }
+
+        [BsonElement("Perfil")]
+        public string Perfil { get; set; }
+
     }
 }

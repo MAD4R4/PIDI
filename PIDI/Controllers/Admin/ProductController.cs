@@ -43,7 +43,7 @@ namespace PIDI.Models
         }
 
         // GET: Product
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Index()
         {
             List<ProductModel> products = productCollection.AsQueryable<ProductModel>().ToList();
@@ -75,6 +75,14 @@ namespace PIDI.Models
 
         // GET: Product/Details/5
         public ActionResult Details(string id)
+        {
+            var productID = new ObjectId(id);
+            var product = productCollection.AsQueryable<ProductModel>().SingleOrDefault(x => x.Id == productID);
+            return View(product);
+        }
+
+        // GET: Product/Details/5
+        public ActionResult VisualizeProduct(string id)
         {
             var productID = new ObjectId(id);
             var product = productCollection.AsQueryable<ProductModel>().SingleOrDefault(x => x.Id == productID);

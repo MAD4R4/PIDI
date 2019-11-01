@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.Security;
+using PIDI.Controllers.Admin;
 using PIDI.Models;
+using Roles = PIDI.Models.Roles;
 
 namespace PIDI.App_Start
 {
@@ -27,6 +29,17 @@ namespace PIDI.App_Start
             }
             else
                 return _instance;
+        }
+
+        SessionContext ()
+        {
+            Roles roles = new Roles();
+            roles.CreateRole("Administrador");
+            roles.CreateRole("Financeiro");
+            roles.CreateRole("User");
+
+            UserController userController = new UserController();
+            userController.CreateDefaultAdminAccount();
         }
 
         public void SetAuthenticationToken(string name, bool isPersistant, UserModel userData)

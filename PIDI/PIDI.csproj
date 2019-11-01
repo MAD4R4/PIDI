@@ -173,6 +173,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SessionContext.cs" />
     <Compile Include="App_Start\SessionManager.cs" />
+    <Compile Include="Controllers\Admin\RoleController.cs" />
     <Compile Include="Controllers\Commom\AccountController.cs" />
     <Compile Include="Controllers\Admin\CategoryController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
@@ -182,6 +183,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Controllers\Admin\ProductController.cs" />
+    <Compile Include="Models\Admin\RoleModel.cs" />
     <Compile Include="Models\Commom\AccountModel.cs" />
     <Compile Include="Models\Admin\OrderModel.cs" />
     <Compile Include="Models\Admin\ProductModel.cs" />
@@ -189,6 +191,7 @@
     <Compile Include="Models\Commom\CartModel.cs" />
     <Compile Include="Models\Commom\CustomValidationCPFAttribute.cs" />
     <Compile Include="Models\Commom\UserModel.cs" />
+    <Compile Include="Models\Roles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\CPFAttribute.cs" />
   </ItemGroup>
@@ -281,6 +284,11 @@
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\Product\SearchProduct.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Role\Delete.cshtml" />
+    <Content Include="Views\Role\Edit.cshtml" />
+    <Content Include="Views\Product\VisualizeProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

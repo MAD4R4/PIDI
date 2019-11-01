@@ -5,6 +5,7 @@ using System.Web;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Configuration;
+using PIDI.Models;
 
 namespace PIDI.App_Start
 {
@@ -16,7 +17,6 @@ namespace PIDI.App_Start
         {
             var mongoClient = new MongoClient(ConfigurationManager.AppSettings["MongoDBHost"]);
             database = mongoClient.GetDatabase(ConfigurationManager.AppSettings["MongoDBName"]);
-
         }
 
     }
