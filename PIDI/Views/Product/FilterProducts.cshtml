@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<PIDI.Models.ProductModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "FilterProducts";
 }
 
-<h2>Index</h2>
+<h2>FilterProducts</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -37,7 +37,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.ProductDescription)
         </td>
-         <td>
+        <td>
             @Html.DisplayFor(modelItem => item.Category)
         </td>
         <td>
@@ -47,9 +47,9 @@
             @Html.DisplayFor(modelItem => item.Quantity)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new {id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id  }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id  })
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
     </tr>
 }

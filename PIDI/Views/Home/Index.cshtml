@@ -12,11 +12,11 @@
             <h1 class="my-4">Categorias</h1>
             <div class="list-group">
 
-                @{ var Categorias = PIDI.Models.CategoryController.Instance.GetCategories(10);
+                @{ var Categorias = PIDI.Controllers.Admin.CategoryController.Instance.GetCategories(10);
 
                     foreach (var item in Categorias)
                     {
-                        <a href="#" class="list-group-item">@item.CategoryName</a>
+                        <a href='@Url.Action("FilterProducts", "Product", new { area = "Product" , category = item.CategoryName})' class="list-group-item">@item.CategoryName</a>
                     }
 
                 }
@@ -27,7 +27,7 @@
         <div class="col-lg-9">
             <div class="row">
 
-                @{var Products = PIDI.Models.ProductController.Instance.GetProducts(100);
+                @{var Products = PIDI.Controllers.Admin.ProductController.Instance.GetProducts(100);
 
                     foreach (var item in Products)
                     {

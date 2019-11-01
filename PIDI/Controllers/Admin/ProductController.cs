@@ -7,8 +7,9 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Configuration;
 using PIDI.App_Start;
+using PIDI.Models;
 
-namespace PIDI.Models
+namespace PIDI.Controllers.Admin
 {
     public class ProductController : Controller
     {
@@ -50,24 +51,16 @@ namespace PIDI.Models
             return View(products);
         }
 
-        public List<ProductModel> GetProducts(int quantity= 999, CategoryModel category = null , bool all = false)
+        public List<ProductModel> GetProducts(int quantity= 999 , bool all = false)
         {
             if(all)
             {
                 List<ProductModel> products = productCollection.AsQueryable<ProductModel>().ToList();
                 return products;
             }
-
-            if(category == null)
-            {
-                List<ProductModel> products = productCollection.AsQueryable<ProductModel>().ToList();
-                var LimitedList = products.OrderByDescending(x => x.ProductName).Take(quantity);
-                return LimitedList.ToList();
-            }
             else
             {
-                //TESTAR
-                List<ProductModel> products = productCollection.AsQueryable<ProductModel>().OrderByDescending(x => (x.Category.CategoryName == category.CategoryName)).ToList();
+                List<ProductModel> products = productCollection.AsQueryable<ProductModel>().ToList();
                 var LimitedList = products.OrderByDescending(x => x.ProductName).Take(quantity);
                 return LimitedList.ToList();
             }
@@ -130,8 +123,10 @@ namespace PIDI.Models
                 var filter = Builders<ProductModel>.Filter.Eq("_id", ObjectId.Parse(id));
                 var update = Builders<ProductModel>.Update
                     .Set("ProductName", product.ProductName)
-                    .Set("ProductDescripton", product.ProductDescription)
+                    .Set("ProductDescription", product.ProductDescription)
+                    .Set("Category",product.Category)
                     .Set("Quantity", product.Quantity);
+                
                 var result = productCollection.UpdateOne(filter, update);
                 return RedirectToAction("Index");
             }
@@ -190,6 +185,14 @@ namespace PIDI.Models
             }
 
             return View(products);
+        }
+
+        public ActionResult FilterProducts(string category , int quantity = 100)
+        {
+            var products = productCollection.Find(x => x.Category == category).ToList();
+            var LimitedList = products.OrderByDescending(x => x.ProductName).Take(quantity);
+
+            return View(LimitedList.ToList());
         }
 
         /// <summary>

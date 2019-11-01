@@ -7,6 +7,7 @@ using PIDI.Models.Commom;
 using PIDI.Models;
 using MongoDB.Bson;
 using PIDI.App_Start;
+using PIDI.Controllers.Admin;
 
 namespace PIDI.Controllers.Commom
 {

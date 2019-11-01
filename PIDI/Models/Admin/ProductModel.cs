@@ -31,6 +31,6 @@ namespace PIDI.Models
         public string Quantity { get; set; }
 
         [BsonElement("Category")]
-        public CategoryModel Category;
+        public string Category { get; set; }
     }
 }

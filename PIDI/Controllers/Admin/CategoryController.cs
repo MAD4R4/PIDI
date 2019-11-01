@@ -7,8 +7,9 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Configuration;
 using PIDI.App_Start;
+using PIDI.Models;
 
-namespace PIDI.Models
+namespace PIDI.Controllers.Admin
 {
     public class CategoryController : Controller
     {
