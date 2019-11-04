@@ -4,62 +4,51 @@
     ViewBag.Title = "ShowProfile";
 }
 
-<div class="container-fluid">
-    <h2>Dados do usuário</h2>
-    <hr />
-</div>
-<div class="d-flex bd-highlight border">
-    <div class="p-2 flex-lg-fill bd-highlight">Flex item</div>
-    <div class="p-2 flex-lg-fill bd-highlight">Flex item</div>
-    <div class="p-2 flex-lg-fill bd-highlight">Flex item</div>
-    <div class="p-2 flex-lg-fill bd-highlight">Flex item</div>
-</div>
-
-
-<div class="container">
-
-    <div class="row">
-        <div class="col-lg-4 border text-monospace h2 font-weight-bold">
-            @Html.DisplayNameFor(model => model.nome)
+    <div class="container-fluid">
+        <h2>Dados do usuário</h2>
+        <hr />
+        <div class="row">
+            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.nome)
+            </div>
+            <div class="col-lg-8 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.nome)
+            </div>
         </div>
-        <div class="col-lg-6 border text-monospace h3">
-            @Html.DisplayFor(model => model.nome)
+        <div class="row">
+            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.email)
+            </div>
+            <div class="col-lg-8 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.email)
+            </div>
         </div>
+        <div class="row">
+            <div class="col-lg-4 border-bottom text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.dtNascimento)
+            </div>
+            <div class="col-lg-8 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.dtNascimento)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 border-bottom text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.cpf)
+            </div>
+            <div class="col-lg-8 border-bottom  text-monospace h4">
+                @Html.DisplayFor(model => model.cpf)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 border-bottom text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.sexo)
+            </div>
+            <div class="col-lg-8 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.sexo)
+            </div>
+        </div>
+        &nbsp
+        <p>
+            @Html.ActionLink("Alterar meus dados", "EditProfile", null, new { @class = "btn btn-info btn-lg" })
+        </p>
     </div>
-    <div class="row">
-        <div class="col-lg-4 border text-monospace h2 font-weight-bold">
-            @Html.DisplayNameFor(model => model.email)
-        </div>
-        <div class="col-lg-6 border text-monospace h3">
-            @Html.DisplayFor(model => model.email)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 border text-monospace h2 font-weight-bold">
-            @Html.DisplayNameFor(model => model.dtNascimento)
-        </div>
-        <div class="col-lg-6 border text-monospace h3">
-            @Html.DisplayFor(model => model.dtNascimento)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 border text-monospace h2 font-weight-bold">
-            @Html.DisplayNameFor(model => model.cpf)
-        </div>
-        <div class="col-lg-6 border text-monospace h3">
-            @Html.DisplayFor(model => model.cpf)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 border text-monospace h2 font-weight-bold">
-            @Html.DisplayNameFor(model => model.sexo)
-        </div>
-        <div class="col-lg-6 border text-monospace h3">
-            @Html.DisplayFor(model => model.sexo)
-        </div>
-    </div>
-
-    <p>
-        @Html.ActionLink("Alterar meus dados", "EditProfile", null, new { @class = "btn btn-info btn-lg" })
-    </p>
-</div>
