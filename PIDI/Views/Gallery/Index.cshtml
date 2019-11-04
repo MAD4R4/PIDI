@@ -1,0 +1,17 @@
+﻿@model IEnumerable<PIDI.Models.Commom.MongoPictureModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@Html.ActionLink("Add a new Picture", "AddPicture")
+
+@foreach (var pictue in Model)
+{
+    <div>
+        @pictue.FileName<br />
+        <img src="@string.Format("/Gallery/ShowPicture/{0}",pictue._id.ToString())" alt="@pictue.FileName" />
+    </div>
+}
