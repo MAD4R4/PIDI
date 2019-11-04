@@ -4,54 +4,51 @@
     ViewBag.Title = "ShowProfile";
 }
 
-<h2>ShowProfile</h2>
-
-<div>
-    <h4>UserModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.nome)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nome)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.dtNascimento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.dtNascimento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.cpf)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.cpf)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.sexo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.sexo)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit Profile", "EditProfile")
-</p>
+    <div class="container-fluid">
+        <h2>Dados do usuário</h2>
+        <hr />
+        <div class="row">
+            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.nome)
+            </div>
+            <div class="col-lg-8 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.nome)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.email)
+            </div>
+            <div class="col-lg-8 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.email)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 border-bottom text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.dtNascimento)
+            </div>
+            <div class="col-lg-8 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.dtNascimento)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 border-bottom text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.cpf)
+            </div>
+            <div class="col-lg-8 border-bottom  text-monospace h4">
+                @Html.DisplayFor(model => model.cpf)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 border-bottom text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.sexo)
+            </div>
+            <div class="col-lg-8 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.sexo)
+            </div>
+        </div>
+        &nbsp
+        <p>
+            @Html.ActionLink("Alterar meus dados", "EditProfile", null, new { @class = "btn btn-info btn-lg" })
+        </p>
+    </div>

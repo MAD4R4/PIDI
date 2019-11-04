@@ -5,51 +5,64 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div class="container">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table border="1">
-    <tr>
-        <th>Nome</th>
-        <th>Preço</th>
-        <th>Quantidade</th>
-        <th>SubTotal</th>
-        <th>Preço Total</th>
-    </tr>
-    @if (SessionManager.ReturnSessionObject("Cart") != null)
-    {
-        float valorTotal = 0f;
+    <h2>Carrinho de compras</h2>
 
-        foreach (var item in (List<CartModel>)SessionManager.ReturnSessionObject("Cart"))
-        {
-            float subvalor = item.product.Preco * item.Quantity;
+    <hr />
+    <table class="table table-hover shadow-lg p-3 mb-5 bg-white rounded"; style="text-align: center">
+        <thead>
             <tr>
-                <th>@item.product.ProductName</th>
-                <th>@item.product.Preco</th>
-                <th>@item.Quantity</th>
-                <th>@(String.Format("{0:N0}", subvalor))</th>
-                <th></th>
+                <th class="text-monospace h3 font-weight-bold">
+                    Nome
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    Preço
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    Quantidade
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    SubTotal
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    Total
+                </th>
             </tr>
-            valorTotal += subvalor;
-        }
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>@valorTotal</th>
-        </tr>
-        
-    }
 
+        <tbody>
+
+            @if (SessionManager.ReturnSessionObject("Cart") != null)
+            {
+                float valorTotal = 0f;
+
+                foreach (var item in (List<CartModel>)SessionManager.ReturnSessionObject("Cart"))
+                {
+                    float subvalor = item.product.Preco * item.Quantity;
+                    <tr class="text-monospace h3 font-weight">
+                        <td style="text-align: center">@item.product.ProductName</td>
+                        <td style="text-align: center">R$ @item.product.Preco</td>
+                        <td>@item.Quantity</td>
+                        <td>R$ @(String.Format("{0:N0}", subvalor))</td>
+                        <td></td>
+                    </tr>
+                    valorTotal += subvalor;
+                }
+                <tr class="text-monospace h3 font-weight">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>R$ @valorTotal</td>
+                </tr>
+
+            }
 
 </table>
 
 
 
-<div id="endereco">
+<div id="endereco" class="table table-hover shadow-lg p-3 mb-5 bg-white rounded">
 
     <form method="get" action=".">
         <label>
@@ -141,3 +154,4 @@
     };
 
 </script>
+

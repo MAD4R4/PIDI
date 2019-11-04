@@ -40,25 +40,23 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto d-flex align-items-center ">
 
                     @if (SessionContext.Instance.GetUserData() != null)
                     {
-                        <li style="font-size:20px">@Html.ActionLink("Perfil", "ShowProfile", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
-                        <li style="font-size:20px">@Html.ActionLink("Logout", "Logout", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+                    <li style="font-size:20px">@Html.ActionLink("Perfil", "ShowProfile", "Account", new { area = "Account" }, new { @class = "nav-link" })</li> 
+                    <li style="font-size:20px">@Html.ActionLink("Logout", "Logout", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
                     }
                     else
                     {
-                        <li style="font-size:20px">@Html.ActionLink("Login", "Login", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
-                        <li style="font-size:20px">@Html.ActionLink("Cadastro", "Registration", "User", new { area = "User" }, new { @class = "nav-link" })</li>
+                <li style="font-size:20px">@Html.ActionLink("Login", "Login", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+                <li style="font-size:20px">@Html.ActionLink("Cadastro", "Registration", "User", new { area = "User" }, new { @class = "nav-link" })</li>
 
                     }
-                    @*<li style="font-size:20px">@Html.ActionLink("Index", "ShoppingCart", new { area = "ShoppingCart" }, new { @class = "nav-link" }) </li>*@
-                    <a href='@Url.Action("Index", "ShoppingCart", new { area = "ShoppingCart" })'><img class="card-img-top" src="~/img/carrinho-jc.png" alt=""></a>
 
+                <li>&nbsp &nbsp <a href='@Url.Action("Index", "ShoppingCart", new { area = "ShoppingCart" })'><img src="~/img/Cart.png" alt="" /></a>
 
-                    <!--<li style="font-size:20px">@Html.ActionLink("Carrinho", "Index", "ShoppingCart", new { area = "ShoppingCart" }, new { @class = "nav-link" })</li>-->
-                </ul>
+</ul>
             </div>
         </div>
     </nav>
