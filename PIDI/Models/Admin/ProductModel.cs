@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
-
+using PIDI.Models.Commom;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,5 +32,9 @@ namespace PIDI.Models
 
         [BsonElement("Category")]
         public string Category { get; set; }
+
+        [BsonElement("Product Images")]
+        public List<MongoPictureModel> productImages { get; set; }
+
     }
 }

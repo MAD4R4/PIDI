@@ -8,7 +8,11 @@
 <div class="container">
 
     <h2>Carrinho de compras</h2>
+    @{
+    List<PedidoElementModel> Items = new List<PedidoElementModel>();
+    PIDI.App_Start.SessionManager.FreeSession("items");
 
+    }
     <hr />
     <table class="table table-hover shadow-lg p-3 mb-5 bg-white rounded"; style="text-align: center">
         <thead>
@@ -35,8 +39,8 @@
             @if (SessionManager.ReturnSessionObject("Cart") != null)
             {
                 float valorTotal = 0f;
-
-                foreach (var item in (List<CartModel>)SessionManager.ReturnSessionObject("Cart"))
+                var cartItems = (List<CartModel>)SessionManager.ReturnSessionObject("Cart");
+                foreach (var item in cartItems)
                 {
                     float subvalor = item.product.Preco * item.Quantity;
                     <tr class="text-monospace h3 font-weight">
@@ -47,6 +51,14 @@
                         <td></td>
                     </tr>
                     valorTotal += subvalor;
+
+                    Items.Add(new PedidoElementModel()
+                    {
+                        produtoRequisitado = item.product,
+                        //productImage = item.product.productImages[0],
+                        Quantity = item.Quantity,
+                        UnitPrice = item.product.Preco
+                    });
                 }
                 <tr class="text-monospace h3 font-weight">
                     <td></td>
@@ -56,36 +68,37 @@
                     <td>R$ @valorTotal</td>
                 </tr>
 
+                    PIDI.App_Start.SessionManager.RegisterSession("items", Items);
             }
 
 </table>
 
+    <div id="endereco" class="table table-hover shadow-lg p-3 mb-5 bg-white rounded">
+
+        <form method="get" action=".">
+            <label>
+                Cep:
+                <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
+                       onblur="pesquisacep(this.value);" />
+            </label><br />
+            <label>
+                Rua:
+                <input name="rua" type="text" id="rua" size="60" readonly />
+            </label><br />
+            <label>
+                Bairro:
+                <input name="bairro" type="text" id="bairro" size="40" readonly />
+            </label><br />
+            <label>
+                Cidade:
+                <input name="cidade" type="text" id="cidade" size="40" readonly />
+            </label><br />
+        </form>
+
+        @Html.ActionLink("Realizar Pedido", "PaymentWithPaypal", "Paypal", new { area = "Paypal" , items = Items }, new { @class = "btn btn-info " })
 
 
-<div id="endereco" class="table table-hover shadow-lg p-3 mb-5 bg-white rounded">
-
-    <form method="get" action=".">
-        <label>
-            Cep:
-            <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
-                   onblur="pesquisacep(this.value);" />
-        </label><br />
-        <label>
-            Rua:
-            <input name="rua" type="text" id="rua" size="60" readonly/>
-        </label><br />
-        <label>
-            Bairro:
-            <input name="bairro" type="text" id="bairro" size="40" readonly/>
-        </label><br />
-        <label>
-            Cidade:
-            <input name="cidade" type="text" id="cidade" size="40" readonly/>
-        </label><br />
-
-    </form>
-
-</div>
+    </div>
 
 
 <!-- Adicionando Javascript -->

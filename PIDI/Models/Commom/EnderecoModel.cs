@@ -12,6 +12,6 @@ namespace PIDI.Models.Commom
         public string Cidade { get; set; }
         public string Distrito { get; set; }
         public string Rua { get; set; }
-        public string Complemento { get; set; }
+        public string rua { get; set; }
     }
 }

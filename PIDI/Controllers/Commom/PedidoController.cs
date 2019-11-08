@@ -1,8 +1,11 @@
 ﻿using Correios.Net;
+using MongoDB.Driver;
+using PIDI.App_Start;
 using PIDI.Models.Commom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,6 +13,16 @@ namespace PIDI.Controllers.Commom
 {
     public class PedidoController : Controller
     {
+        private MongoDBContext dBContext;
+        private IMongoCollection<PedidosModel> orderCollection;
+
+        public PedidoController()
+        {
+            dBContext = new MongoDBContext();
+            orderCollection = dBContext.database.GetCollection<PedidosModel>("orders");
+        }
+
+
         // GET: Pedido
         public ActionResult Index()
         {
@@ -88,6 +101,33 @@ namespace PIDI.Controllers.Commom
             }
         }
 
+        public async Task<PedidosModel> GerarPedido(string cep)
+        {
+            var user = App_Start.SessionContext.Instance.GetUserData();
+            var endereco = LocalizarCEP(cep);
+
+            var generatedOrder = new PedidosModel();
+
+            generatedOrder.userId = user.Id.ToString();
+            generatedOrder.OrderDate = DateTime.Now;
+            generatedOrder.paymentType = "paypal";
+            generatedOrder.State = endereco.Estado;
+            generatedOrder.City = endereco.Cidade;
+            generatedOrder.Country = "Brasil";
+            generatedOrder.Address = endereco.rua;
+            generatedOrder.HasBeenShipped = false;
+            generatedOrder.PostalCode = cep;
+
+            PedidosModel x = await CriarPedido(generatedOrder);
+            return x;
+        }
+
+        private async Task<PedidosModel> CriarPedido(PedidosModel pedido)
+        {
+            await orderCollection.InsertOneAsync(pedido);
+            return pedido;
+        }
+
         public EnderecoModel LocalizarCEP(string cep)
         {
             EnderecoModel enderecoTarget = new EnderecoModel();
@@ -99,7 +139,7 @@ namespace PIDI.Controllers.Commom
                     enderecoTarget.Estado = endereco.State;
                     enderecoTarget.Cidade = endereco.City;
                     enderecoTarget.Distrito = endereco.District;
-                    enderecoTarget.Complemento = endereco.Street;
+                    enderecoTarget.rua = endereco.Street;
 
                     return enderecoTarget;
                 }

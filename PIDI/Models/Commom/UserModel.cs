@@ -18,6 +18,10 @@ namespace PIDI.Models
         [BsonElement("nome")]
         public string nome { get; set; }
 
+        [Display(Name = "Sobrenome")]
+        [BsonElement("sobrenome")]
+        public string sobrenome { get; set; }
+
         [Display(Name = "Email")]
         [BsonElement("email")]
         [DataType(DataType.EmailAddress)]

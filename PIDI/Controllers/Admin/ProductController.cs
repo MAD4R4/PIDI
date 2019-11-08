@@ -96,7 +96,6 @@ namespace PIDI.Controllers.Admin
             {
                 // TODO: Add insert logic here
                 productCollection.InsertOne(product);
-
                 return RedirectToAction("Index");
             }
             catch

@@ -10,8 +10,12 @@ namespace PIDI.Models.Commom
     public class PedidoElementModel
     {
 
-        public string productID { get; set; }
-        public string requiredQuantity { get; set; }
+        public ProductModel produtoRequisitado { get; set; }
+
+        public int Quantity { get; set; }
+
+        public double? UnitPrice { get; set; }
+
         public MongoPictureModel productImage  { get; set; }
 
     }

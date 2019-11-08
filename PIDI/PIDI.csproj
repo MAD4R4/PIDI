@@ -88,6 +88,9 @@
     <Reference Include="MongoDB.Driver.Legacy, Version=2.9.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\mongocsharpdriver.2.9.2\lib\net452\MongoDB.Driver.Legacy.dll</HintPath>
     </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
     <Reference Include="SharpCompress, Version=0.23.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.23.0\lib\net45\SharpCompress.dll</HintPath>
     </Reference>
@@ -183,6 +186,7 @@
     <Compile Include="Controllers\Commom\AccountController.cs" />
     <Compile Include="Controllers\Admin\CategoryController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\Admin\PaypalController.cs" />
     <Compile Include="Models\Commom\EnderecoModel.cs" />
     <Compile Include="Controllers\Commom\HomeController.cs" />
     <Compile Include="Controllers\Commom\PedidoController.cs" />
@@ -200,6 +204,7 @@
     <Compile Include="Models\Commom\CartModel.cs" />
     <Compile Include="Models\Commom\CustomValidationCPFAttribute.cs" />
     <Compile Include="Models\Commom\MongoPictureModel.cs" />
+    <Compile Include="Models\Commom\PaypalConfiguration.cs" />
     <Compile Include="Models\Commom\PedidoElementModel.cs" />
     <Compile Include="Models\Commom\PedidosModel.cs" />
     <Compile Include="Models\Commom\UserModel.cs" />
@@ -236,6 +241,14 @@
     </None>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\CustomValidation.js" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\inputmask\bindings\inputmask.binding.js" />
     <Content Include="Scripts\inputmask\dependencyLibs\inputmask.dependencyLib.jqlite.js" />
     <Content Include="Scripts\inputmask\dependencyLibs\inputmask.dependencyLib.jquery.js" />
@@ -305,6 +318,8 @@
     <Content Include="Views\Gallery\AddPicture.cshtml" />
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Views\Pedido\Index.cshtml" />
+    <Content Include="Views\Paypal\PaymentSucess.cshtml" />
+    <Content Include="Views\Paypal\PaymentFailure.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

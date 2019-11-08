@@ -64,6 +64,37 @@ namespace PIDI.Models.Admin
             return View();
         }
 
+        public MongoPictureModel TransformImage(HttpPostedFileBase theFile)
+        {
+            if (theFile.ContentLength > 0)
+            {
+                //get the file's name 
+                string theFileName = Path.GetFileName(theFile.FileName);
+
+                //get the bytes from the content stream of the file
+                byte[] thePictureAsBytes = new byte[theFile.ContentLength];
+                using (BinaryReader theReader = new BinaryReader(theFile.InputStream))
+                {
+                    thePictureAsBytes = theReader.ReadBytes(theFile.ContentLength);
+                }
+
+                //convert the bytes of image data to a string using the Base64 encoding
+                string thePictureDataAsString = Convert.ToBase64String(thePictureAsBytes);
+
+                //create a new mongo picture model object to insert into the db
+                MongoPictureModel thePicture = new MongoPictureModel()
+                {
+                    FileName = theFileName,
+                    PictureDataAsString = thePictureDataAsString
+                };
+
+                return thePicture;
+            }
+            else
+                return null;
+
+        }
+
         /// <summary>
         /// This method will insert the picture into the db
         /// </summary>
