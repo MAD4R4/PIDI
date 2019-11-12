@@ -1,10 +1,11 @@
-﻿using Correios.Net;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using PIDI.App_Start;
 using PIDI.Models.Commom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -101,23 +102,30 @@ namespace PIDI.Controllers.Commom
             }
         }
 
-        public async Task<PedidosModel> GerarPedido(string cep)
+        [HttpPost]
+        public async Task<ActionResult> VerPedido(Address endereco)
+        {
+            PedidosModel pedido = await GerarPedido(endereco);
+            return View(pedido);
+        }
+
+        public async Task<PedidosModel> GerarPedido(Address endereco)
         {
             var user = App_Start.SessionContext.Instance.GetUserData();
-            var endereco = LocalizarCEP(cep);
+            List<PedidoElementModel> cartItems = (List<PedidoElementModel>)PIDI.App_Start.SessionManager.ReturnSessionObject("items");
 
             var generatedOrder = new PedidosModel();
-
-            generatedOrder.userId = user.Id.ToString();
+            generatedOrder.userId = user.userId;
             generatedOrder.OrderDate = DateTime.Now;
             generatedOrder.paymentType = "paypal";
-            generatedOrder.State = endereco.Estado;
-            generatedOrder.City = endereco.Cidade;
+            generatedOrder.State = endereco.uf;
+            generatedOrder.City = endereco.cidade;
             generatedOrder.Country = "Brasil";
             generatedOrder.Address = endereco.rua;
             generatedOrder.HasBeenShipped = false;
-            generatedOrder.PostalCode = cep;
-
+            generatedOrder.PostalCode = endereco.cep;
+            generatedOrder.produtosRequisitados = cartItems;
+            generatedOrder.Total = GerarTotal(cartItems);
             PedidosModel x = await CriarPedido(generatedOrder);
             return x;
         }
@@ -128,31 +136,15 @@ namespace PIDI.Controllers.Commom
             return pedido;
         }
 
-        public EnderecoModel LocalizarCEP(string cep)
+        private decimal GerarTotal(List<PedidoElementModel> items)
         {
-            EnderecoModel enderecoTarget = new EnderecoModel();
-            if (!string.IsNullOrWhiteSpace(cep))
+            float valorTotal = 0f;
+            for (int i = 0; i < items.Count; i++)
             {
-                Address endereco = SearchZip.GetAddress(cep);
-                if (endereco.Zip != null)
-                {
-                    enderecoTarget.Estado = endereco.State;
-                    enderecoTarget.Cidade = endereco.City;
-                    enderecoTarget.Distrito = endereco.District;
-                    enderecoTarget.rua = endereco.Street;
+                valorTotal += items[i].produtoRequisitado.Preco * items[i].Quantity;
+            }
 
-                    return enderecoTarget;
-                }
-                else
-                {
-                    //MessageBox.Show("Cep não localizado...");
-                }
-            }
-            else
-            {
-                //MessageBox.Show("Informe um CEP válido");
-            }
-            return null;
+            return (decimal) valorTotal;
         }
     }
 }

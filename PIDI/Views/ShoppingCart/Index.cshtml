@@ -1,5 +1,6 @@
 ﻿@using PIDI.Models.Commom;
 @using PIDI.App_Start;
+@model PIDI.Models.Commom.Address
 
 @{
     ViewBag.Title = "Index";
@@ -9,12 +10,12 @@
 
     <h2>Carrinho de compras</h2>
     @{
-    List<PedidoElementModel> Items = new List<PedidoElementModel>();
-    PIDI.App_Start.SessionManager.FreeSession("items");
+        List<PedidoElementModel> Items = new List<PedidoElementModel>();
+        PIDI.App_Start.SessionManager.FreeSession("items");
 
     }
     <hr />
-    <table class="table table-hover shadow-lg p-3 mb-5 bg-white rounded"; style="text-align: center">
+    <table class="table table-hover shadow-lg p-3 mb-5 bg-white rounded" ; style="text-align: center">
         <thead>
             <tr>
                 <th class="text-monospace h3 font-weight-bold">
@@ -68,103 +69,133 @@
                     <td>R$ @valorTotal</td>
                 </tr>
 
-                    PIDI.App_Start.SessionManager.RegisterSession("items", Items);
+                PIDI.App_Start.SessionManager.RegisterSession("items", Items);
             }
 
-</table>
+    </table>
 
-    <div id="endereco" class="table table-hover shadow-lg p-3 mb-5 bg-white rounded">
+    <div class="table table-hover shadow-lg p-3 mb-5 bg-white rounded">
 
-        <form method="get" action=".">
-            <label>
-                Cep:
-                <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
-                       onblur="pesquisacep(this.value);" />
-            </label><br />
-            <label>
-                Rua:
-                <input name="rua" type="text" id="rua" size="60" readonly />
-            </label><br />
-            <label>
-                Bairro:
-                <input name="bairro" type="text" id="bairro" size="40" readonly />
-            </label><br />
-            <label>
-                Cidade:
-                <input name="cidade" type="text" id="cidade" size="40" readonly />
-            </label><br />
-        </form>
+        @using (Html.BeginForm("VerPedido", "Pedido", FormMethod.Post))
+        {
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.cep, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.cep, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.cep, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-        @Html.ActionLink("Realizar Pedido", "PaymentWithPaypal", "Paypal", new { area = "Paypal" , items = Items }, new { @class = "btn btn-info " })
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.rua, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.rua, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.rua, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.bairro, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.bairro, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.bairro, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.cidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.cidade, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.cidade, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.uf, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.uf, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.uf, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Finalizar cadastro" class="btn btn-info btn-lg" />
+                </div>
+            </div>
+        }
 
 
     </div>
 
+    <!-- Adicionando JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
 
-<!-- Adicionando Javascript -->
-<script type="text/javascript">
+    <!-- Adicionando Javascript -->
+    <script type="text/javascript">
 
-    function limpa_formulário_cep() {
-        //Limpa valores do formulário de cep.
-        document.getElementById('rua').value = ("");
-        document.getElementById('bairro').value = ("");
-        document.getElementById('cidade').value = ("");
-    }
+        $(document).ready(function () {
 
-    function meu_callback(conteudo) {
-        if (!("erro" in conteudo)) {
-            //Atualiza os campos com os valores.
-            document.getElementById('rua').value = (conteudo.logradouro);
-            document.getElementById('bairro').value = (conteudo.bairro);
-            document.getElementById('cidade').value = (conteudo.localidade);
-        } //end if.
-        else {
-            //CEP não Encontrado.
-            limpa_formulário_cep();
-            alert("CEP não encontrado.");
-        }
-    }
-
-    function pesquisacep(valor) {
-
-        //Nova variável "cep" somente com dígitos.
-        var cep = valor.replace(/\D/g, '');
-
-        //Verifica se campo cep possui valor informado.
-        if (cep != "") {
-
-            //Expressão regular para validar o CEP.
-            var validacep = /^[0-9]{8}$/;
-
-            //Valida o formato do CEP.
-            if (validacep.test(cep)) {
-
-                //Preenche os campos com "..." enquanto consulta webservice.
-                document.getElementById('rua').value = "...";
-                document.getElementById('bairro').value = "...";
-                document.getElementById('cidade').value = "...";
-
-                //Cria um elemento javascript.
-                var script = document.createElement('script');
-
-                //Sincroniza com o callback.
-                script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
-
-                //Insere script no documento e carrega o conteúdo.
-                document.body.appendChild(script);
-
-            } //end if.
-            else {
-                //cep é inválido.
-                limpa_formulário_cep();
-                alert("Formato de CEP inválido.");
+            function limpa_formulário_cep() {
+                // Limpa valores do formulário de cep.
+                $("#rua").val("");
+                $("#bairro").val("");
+                $("#cidade").val("");
+                $("#uf").val("");
+                $("#ibge").val("");
             }
-        } //end if.
-        else {
-            //cep sem valor, limpa formulário.
-            limpa_formulário_cep();
-        }
-    };
 
-</script>
+            //Quando o campo cep perde o foco.
+            $("#cep").blur(function () {
+
+                //Nova variável "cep" somente com dígitos.
+                var cep = $(this).val().replace(/\D/g, '');
+
+                //Verifica se campo cep possui valor informado.
+                if (cep != "") {
+
+                    //Expressão regular para validar o CEP.
+                    var validacep = /^[0-9]{8}$/;
+
+                    //Valida o formato do CEP.
+                    if (validacep.test(cep)) {
+
+                        //Preenche os campos com "..." enquanto consulta webservice.
+                        $("#rua").val("...");
+                        $("#bairro").val("...");
+                        $("#cidade").val("...");
+                        $("#uf").val("...");
+                        $("#ibge").val("...");
+
+                        //Consulta o webservice viacep.com.br/
+                        $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+
+                            if (!("erro" in dados)) {
+                                //Atualiza os campos com os valores da consulta.
+                                $("#rua").val(dados.logradouro);
+                                $("#bairro").val(dados.bairro);
+                                $("#cidade").val(dados.localidade);
+                                $("#uf").val(dados.uf);
+                                $("#ibge").val(dados.ibge);
+                            } //end if.
+                            else {
+                                //CEP pesquisado não foi encontrado.
+                                limpa_formulário_cep();
+                                alert("CEP não encontrado.");
+                            }
+                        });
+                    } //end if.
+                    else {
+                        //cep é inválido.
+                        limpa_formulário_cep();
+                        alert("Formato de CEP inválido.");
+                    }
+                } //end if.
+                else {
+                    //cep sem valor, limpa formulário.
+                    limpa_formulário_cep();
+                }
+            });
+        });
+
+    </script>
 

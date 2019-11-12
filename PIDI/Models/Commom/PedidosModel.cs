@@ -12,7 +12,7 @@ namespace PIDI.Models.Commom
     public class PedidosModel
     {
         [BsonId]
-        public int OrderId { get; set; }
+        public ObjectId OrderId { get; set; }
 
         public System.DateTime OrderDate { get; set; }
 
@@ -30,7 +30,9 @@ namespace PIDI.Models.Commom
 
         //public string Phone { get; set; }
 
-        public string Email { get; set; }
+        //public string Email { get; set; }
+
+        public List<PedidoElementModel> produtosRequisitados { get; set; }
 
         [ScaffoldColumn(false)]
         public decimal Total { get; set; }

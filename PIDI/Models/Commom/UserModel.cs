@@ -14,6 +14,9 @@ namespace PIDI.Models
         [BsonId]
         public ObjectId Id { get; set; }
 
+        [BsonIgnore]
+        public string userId { get; set; }
+
         [Display(Name = "Nome")]
         [BsonElement("nome")]
         public string nome { get; set; }

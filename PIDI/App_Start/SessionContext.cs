@@ -45,6 +45,7 @@ namespace PIDI.App_Start
         public void SetAuthenticationToken(string name, bool isPersistant, UserModel userData)
         {
             string data = null;
+            userData.userId = userData.Id.ToString();
             if (userData != null)
                 data = new JavaScriptSerializer().Serialize(userData);
 

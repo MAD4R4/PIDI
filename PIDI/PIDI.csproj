@@ -48,9 +48,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Correios.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Correios.CEP.Net.1.1.6\lib\Correios.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Crc32C.NET, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
     </Reference>
@@ -187,6 +184,7 @@
     <Compile Include="Controllers\Admin\CategoryController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\Admin\PaypalController.cs" />
+    <Compile Include="Models\Commom\Address.cs" />
     <Compile Include="Models\Commom\EnderecoModel.cs" />
     <Compile Include="Controllers\Commom\HomeController.cs" />
     <Compile Include="Controllers\Commom\PedidoController.cs" />
@@ -320,6 +318,7 @@
     <Content Include="Views\Pedido\Index.cshtml" />
     <Content Include="Views\Paypal\PaymentSucess.cshtml" />
     <Content Include="Views\Paypal\PaymentFailure.cshtml" />
+    <Content Include="Views\Pedido\VerPedido.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
