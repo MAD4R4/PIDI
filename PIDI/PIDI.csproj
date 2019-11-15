@@ -179,6 +179,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SessionContext.cs" />
     <Compile Include="App_Start\SessionManager.cs" />
+    <Compile Include="Controllers\Admin\RelatorioController.cs" />
     <Compile Include="Controllers\Admin\RoleController.cs" />
     <Compile Include="Controllers\Commom\AccountController.cs" />
     <Compile Include="Controllers\Admin\CategoryController.cs" />
@@ -193,7 +194,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Controllers\Admin\ProductController.cs" />
-    <Compile Include="Models\Admin\GalleryController.cs" />
+    <Compile Include="Controllers\Commom\GalleryController.cs" />
     <Compile Include="Models\Admin\RoleModel.cs" />
     <Compile Include="Models\Commom\AccountModel.cs" />
     <Compile Include="Models\Admin\OrderModel.cs" />
@@ -322,6 +323,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Relatorio\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

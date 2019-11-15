@@ -1,6 +1,6 @@
 ﻿@model PIDI.Models.ProductModel
 @using PIDI.Controllers.Admin;
-
+@using MongoDB.Bson;
 @{
     ViewBag.Title = "Create";
 }
@@ -23,14 +23,18 @@
 
     <h2>Incluir produto</h2>
 
-    @using (Html.BeginForm())
+    <form class="images" onsubmit="return false;" method="post" enctype="multipart/form-data">
+        <input type="file" id="uploadImage" name="termek_file" class="file_input" multiple />
+        <div id="result" class="uploadPreview"></div>
+    </form>
+
+    @using (Html.BeginForm("Create", "Product", new { id = @Model.Id }, FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-
             <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger"})
             <div class="form-group text-monospace h4 font-weight-bold">
                 @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -97,53 +101,38 @@
                 </div>
             </div>
 
-           <input type="file" id="uploadImage" name="termek_file" class="file_input" multiple/>
 
-             @*@Html.TextBoxFor(m => m.productImages, new { @type = "file", @id="uploadImage", @class="file_input" })
-             @Html.ValidationMessageFor(m => m.productImages)*@
-           <div id="result" class="uploadPreview"></div>
+
+            @*@Html.TextBoxFor(m => m.productImages, new { @type = "file", @id="uploadImage", @class="file_input" })
+                @Html.ValidationMessageFor(m => m.productImages)*@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     @Html.ActionLink("Retornar", "Index", null, new { @class = "btn btn-info btn-lg" })&nbsp &nbsp
-                    <input type="submit" onclick ="validate()"value="Incluir" class="btn btn-info btn-lg" />
+                    <input type="submit" onclick="validate()" value="Incluir" class="btn btn-info btn-lg" />
                 </div>
             </div>
         </div>
     }
 
+
+
 </div>
 
 
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<!-- Adicionando JQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+
 <script type="text/javascript">
-      
+
    window.onload = function() {
   if (window.File && window.FileList && window.FileReader) {
     var filesInput = document.getElementById("uploadImage");
     filesInput.addEventListener("change", function(event) {
       var files = event.target.files;
         var output = document.getElementById("result");
-
-        //$.ajax({
-        //    url: "/Gallery/",
-        //    data: {
-        //        txtsearch: files
-        //    },
-        //    type: "POST",
-        //     dataType : "json",
-        //      success : function(data){
-        //         for($i=0; $i < data.length; $i++)
-        //           console.log(data[$i])
-        //      },
-        //    error: function (xhr, status) {
-        //        alert("Sorry, there was a problem!");
-        //    },
-        //    complete: function (xhr, status) {
-        //        //$('#showresults').slideDown('slow')
-        //    }
-        //});
 
       for (var i = 0; i < files.length; i++) {
           var file = files[i];
@@ -156,7 +145,7 @@
           div.innerHTML = "<img class='flex-item' src='" + picFile.result + "'" +
             "title='" + picFile.name + "'/>";
           output.insertBefore(div, null);
-        });        
+        });
         picReader.readAsDataURL(file);
       }
 
@@ -164,6 +153,41 @@
   }
     }
 
-      
+
+    validate = function () {
+
+        var files = $("#uploadImage")[0].files;
+
+        if (window.FormData !== undefined) {
+            var data = new FormData();
+            for (var x = 0; x < files.length; x++) {
+                data.append("file" + x, files[x]);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '/Product/UpdateProductPhotos?id=@Model.Id.ToString()',
+                contentType: false,
+               processData: false,
+               data: data,
+               success: function(result) {
+                   console.log(result);
+               },
+               error: function (xhr, status, p3, p4){
+                   var err = "Error " + " " + status + " " + p3 + " " + p4;
+                   if (xhr.responseText && xhr.responseText[0] == "{")
+                       err = JSON.parse(xhr.responseText).Message;
+                       console.log(err);
+                    }
+                });
+        }
+        else {
+            alert("This browser doesn't support HTML5 file uploads!");
+          }
+        return false;
+  }
+
+
+
 </script>
 

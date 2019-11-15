@@ -8,6 +8,10 @@ using MongoDB.Bson;
 using System.Configuration;
 using PIDI.App_Start;
 using PIDI.Models;
+using System.Threading.Tasks;
+using System.Net;
+using System.IO;
+using PIDI.Models.Commom;
 
 namespace PIDI.Controllers.Admin
 {
@@ -83,19 +87,31 @@ namespace PIDI.Controllers.Admin
         }
 
         // GET: Product/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            var produto = await GenerateProduct();
+            return View(produto);
         }
 
         // POST: Product/Create
         [HttpPost]
-        public ActionResult Create(ProductModel product)
+        public ActionResult Create(string id , ProductModel product)
         {
             try
             {
                 // TODO: Add insert logic here
-                productCollection.InsertOne(product);
+                //productCollection.InsertOne(product);
+                var productID = new ObjectId(id);
+
+                var filter = Builders<ProductModel>.Filter.Eq("_id", productID);
+                var update = Builders<ProductModel>.Update
+                    .Set("ProductName", product.ProductName)
+                    .Set("ProductDescription", product.ProductDescription)
+                    .Set("Category", product.Category)
+                    .Set("Quantity", product.Quantity);
+
+                var result = productCollection.UpdateOne(filter, update);
+
                 return RedirectToAction("Index");
             }
             catch
@@ -134,6 +150,123 @@ namespace PIDI.Controllers.Admin
                 return View();
             }
         }
+
+        public async Task<ProductModel> GenerateProduct()
+        {
+            ProductModel product = new ProductModel();
+            await productCollection.InsertOneAsync(product);
+            return product;
+        }
+
+        [HttpPost]
+        public JsonResult UpdateProductPhotos(string id)
+        {
+            try
+            {
+                List<MongoPictureModel> pictures = new List<MongoPictureModel>();
+
+                foreach (string file in Request.Files)
+                {
+                    var fileContent = Request.Files[file];
+                    if (fileContent != null && fileContent.ContentLength > 0)
+                    {
+                        // get a stream
+                        //var stream = fileContent.InputStream;
+                        // and optionally write the file to disk
+                        //var fileName = Path.GetFileName(file);
+                        //var path = Path.Combine(Server.MapPath("~/App_Data/Images"), fileName);
+                        //using (var fileStream = File.Create(path))
+                        //{
+                        //    stream.CopyTo(fileStream);
+                        //}
+
+                        var image = TransformToImage(fileContent);
+                        pictures.Add(image);
+                    }
+                }
+
+                var sucess = UploadImage(id, pictures);
+
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Upload failed");
+            }
+
+            return Json("File uploaded successfully");
+        }
+
+        public FileContentResult ShowPicture(string productId , string id)
+        {
+            //get picture document from db
+            var product = productCollection.Find(x => x.Id == new ObjectId(productId)).SingleOrDefault();
+            var thePicture = product.productImages.Find(x => x.id == new ObjectId(id));
+
+            //transform the picture's data from string to an array of bytes
+            var thePictureDataAsBytes = Convert.FromBase64String(thePicture.PictureDataAsString);
+
+            var fileResult = new FileContentResult(thePictureDataAsBytes, "image/jpeg");
+
+            //return array of bytes as the image's data to action's response. 
+            //We set the image's content mime type to image/jpeg
+            return fileResult;
+        }
+
+        public bool UploadImage(string id , List<MongoPictureModel> pictures)
+        {
+            try
+            {
+                var productID = new ObjectId(id);
+                var product = productCollection.AsQueryable<ProductModel>().SingleOrDefault(x => x.Id == productID);
+
+                var filter = Builders<ProductModel>.Filter.Eq("_id", ObjectId.Parse(id));
+                var update = Builders<ProductModel>.Update
+                    .Set("ProductImages", pictures);
+
+                var result = productCollection.UpdateOne(filter, update);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+
+        public MongoPictureModel TransformToImage(HttpPostedFileBase theFile)
+        {
+            if (theFile.ContentLength > 0)
+            {
+                //get the file's name 
+                string theFileName = Path.GetFileName(theFile.FileName);
+
+                //get the bytes from the content stream of the file
+                byte[] thePictureAsBytes = new byte[theFile.ContentLength];
+                using (BinaryReader theReader = new BinaryReader(theFile.InputStream))
+                {
+                    thePictureAsBytes = theReader.ReadBytes(theFile.ContentLength);
+                }
+
+                //convert the bytes of image data to a string using the Base64 encoding
+                string thePictureDataAsString = Convert.ToBase64String(thePictureAsBytes);
+
+                //create a new mongo picture model object to insert into the db
+                MongoPictureModel thePicture = new MongoPictureModel()
+                {
+                    FileName = theFileName,
+                    PictureDataAsString = thePictureDataAsString
+                };
+
+                return thePicture;
+            }
+            else
+                return null;
+
+        }
+
+
 
         // GET: Product/Delete/5
         public ActionResult Delete(string id)

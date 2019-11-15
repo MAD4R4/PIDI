@@ -4,12 +4,19 @@
     ViewBag.Title = "Edit";
 }
 
+<style>
+    .product-img {
+        width: 300px;
+        height: 300px;
+    }
+</style>
+
 <h2>Edit</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>ProductModel</h4>
         <hr />
@@ -77,6 +84,21 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <h3>Images:</h3>
+
+                @{ var picture = Model.productImages;
+
+                    foreach (var item in picture)
+                    {
+                        <img src="@Url.Action("ShowPicture", "Product", new {productId = Model.Id , id = item.id })" alt="@item.FileName" class="product-img" />
+                    }
+
+                }
             </div>
         </div>
 

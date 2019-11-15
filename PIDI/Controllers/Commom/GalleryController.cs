@@ -7,10 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PIDI.Models.Admin
+namespace PIDI.Controllers.Admin
 {
     public class GalleryController : Controller
     {
@@ -26,7 +27,7 @@ namespace PIDI.Models.Admin
         }
 
         [HttpPost]
-        public ActionResult AddPicture(HttpPostedFileBase theFile)
+        public async Task<ActionResult> AddPicture(HttpPostedFileBase theFile)
         {
             if (theFile.ContentLength > 0)
             {
@@ -51,7 +52,7 @@ namespace PIDI.Models.Admin
                 };
 
                 //insert the picture object
-                bool didItInsert = InsertPictureIntoDatabase(thePicture);
+                bool didItInsert = await InsertPictureIntoDatabase(thePicture);
 
                 if (didItInsert)
                     ViewBag.Message = "The image was updated successfully";
@@ -64,48 +65,17 @@ namespace PIDI.Models.Admin
             return View();
         }
 
-        public MongoPictureModel TransformImage(HttpPostedFileBase theFile)
-        {
-            if (theFile.ContentLength > 0)
-            {
-                //get the file's name 
-                string theFileName = Path.GetFileName(theFile.FileName);
-
-                //get the bytes from the content stream of the file
-                byte[] thePictureAsBytes = new byte[theFile.ContentLength];
-                using (BinaryReader theReader = new BinaryReader(theFile.InputStream))
-                {
-                    thePictureAsBytes = theReader.ReadBytes(theFile.ContentLength);
-                }
-
-                //convert the bytes of image data to a string using the Base64 encoding
-                string thePictureDataAsString = Convert.ToBase64String(thePictureAsBytes);
-
-                //create a new mongo picture model object to insert into the db
-                MongoPictureModel thePicture = new MongoPictureModel()
-                {
-                    FileName = theFileName,
-                    PictureDataAsString = thePictureDataAsString
-                };
-
-                return thePicture;
-            }
-            else
-                return null;
-
-        }
-
         /// <summary>
         /// This method will insert the picture into the db
         /// </summary>
         /// <param name="thePicture"></param>
         /// <returns></returns>
-        private bool InsertPictureIntoDatabase(MongoPictureModel thePicture)
+        private async Task<bool> InsertPictureIntoDatabase(MongoPictureModel thePicture)
         {
             var thePictureColleciton = pictureCollection;
             try
             {
-                thePictureColleciton.InsertOne(thePicture);
+                await thePictureColleciton.InsertOneAsync(thePicture);
                 return true;
             }
             catch { return false; }
@@ -129,17 +99,18 @@ namespace PIDI.Models.Admin
         /// <returns></returns>
         public FileContentResult ShowPicture(string id)
         {
-            var thePictureColleciton = pictureCollection;
+            //var thePictureColleciton = pictureCollection;
 
-            //get picture document from db
-            var thePicture = thePictureColleciton.Find(x => x._id == new ObjectId(id)).SingleOrDefault();
+            ////get picture document from db
+            //var thePicture = thePictureColleciton.Find(x => x._id == new ObjectId(id)).SingleOrDefault();
 
             //transform the picture's data from string to an array of bytes
-            var thePictureDataAsBytes = Convert.FromBase64String(thePicture.PictureDataAsString);
+            //var thePictureDataAsBytes = Convert.FromBase64String(thePicture.PictureDataAsString);
 
             //return array of bytes as the image's data to action's response. 
             //We set the image's content mime type to image/jpeg
-            return new FileContentResult(thePictureDataAsBytes, "image/jpeg");
+            //return new FileContentResult(thePictureDataAsBytes, "image/jpeg");
+            return null;
         }
 
         /// <summary>

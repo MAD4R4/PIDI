@@ -138,7 +138,7 @@ namespace PIDI.Controllers.Admin
 
         public List<CategoryModel> GetCategories(int quantity)
         {
-            List<CategoryModel> categories = categoryCollection.AsQueryable().ToList();
+                List<CategoryModel> categories = categoryCollection.AsQueryable().ToList();
             var LimitedList = categories.OrderByDescending(x => x.CategoryName).Take(quantity);
             return categories;
         }

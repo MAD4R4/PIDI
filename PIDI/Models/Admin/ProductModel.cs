@@ -33,7 +33,7 @@ namespace PIDI.Models
         [BsonElement("Category")]
         public string Category { get; set; }
 
-        [BsonElement("Product Images")]
+        [BsonElement("ProductImages")]
         public List<MongoPictureModel> productImages { get; set; }
 
     }
