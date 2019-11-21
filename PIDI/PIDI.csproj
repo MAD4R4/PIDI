@@ -60,6 +60,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Ext.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2e12ce3d0176cd87, processorArchitecture=MSIL">
       <HintPath>..\packages\Ext.NET.4.0.0\lib\net46\Ext.Net.dll</HintPath>
     </Reference>
@@ -88,6 +91,7 @@
     <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
       <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="SharpCompress, Version=0.23.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.23.0\lib\net45\SharpCompress.dll</HintPath>
     </Reference>
@@ -105,6 +109,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -185,7 +190,7 @@
     <Compile Include="Controllers\Admin\CategoryController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\Admin\PaypalController.cs" />
-    <Compile Include="Models\Commom\Address.cs" />
+    <Compile Include="Models\Commom\Endereco.cs" />
     <Compile Include="Models\Commom\EnderecoModel.cs" />
     <Compile Include="Controllers\Commom\HomeController.cs" />
     <Compile Include="Controllers\Commom\PedidoController.cs" />
@@ -207,6 +212,7 @@
     <Compile Include="Models\Commom\PedidoElementModel.cs" />
     <Compile Include="Models\Commom\PedidosModel.cs" />
     <Compile Include="Models\Commom\UserModel.cs" />
+    <Compile Include="Models\Endereco.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\CPFAttribute.cs" />
@@ -320,10 +326,11 @@
     <Content Include="Views\Paypal\PaymentSucess.cshtml" />
     <Content Include="Views\Paypal\PaymentFailure.cshtml" />
     <Content Include="Views\Pedido\VerPedido.cshtml" />
+    <Content Include="Views\Relatorio\GerarRelatorioPedido.cshtml" />
+    <Content Include="Views\Pedido\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Relatorio\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

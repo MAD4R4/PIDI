@@ -33,7 +33,9 @@ namespace PIDI.Controllers.Commom
         // GET: Pedido/Details/5
         public ActionResult Details(string id)
         {
-            return View();
+            var orderID = new ObjectId(id);
+            var order = orderCollection.AsQueryable<PedidosModel>().SingleOrDefault(x => x.OrderId == orderID);
+            return View(order);
         }
 
         // GET: Pedido/Create
@@ -56,6 +58,17 @@ namespace PIDI.Controllers.Commom
             {
                 return View();
             }
+        }
+
+        public void UpdateOrder(PedidosModel order)
+        {
+            var orderFinded = orderCollection.AsQueryable<PedidosModel>().SingleOrDefault(x => x.OrderId == order.OrderId);
+
+            var filter = Builders<PedidosModel>.Filter.Eq("_id", order.OrderId);
+            var update = Builders<PedidosModel>.Update
+                .Set("orderState", order.orderState);
+
+            var result = orderCollection.UpdateOne(filter, update);
         }
 
         // GET: Pedido/Edit/5
@@ -102,14 +115,28 @@ namespace PIDI.Controllers.Commom
             }
         }
 
+        public PedidosModel GetOrder(string id)
+        {
+            var orderID = new ObjectId(id);
+            var order = orderCollection.AsQueryable<PedidosModel>().SingleOrDefault(x => x.OrderId == orderID);
+            return order;
+        }
+
         [HttpPost]
-        public async Task<ActionResult> VerPedido(Address endereco)
+        public async Task<ActionResult> VerPedido(Endereco endereco)
         {
             PedidosModel pedido = await GerarPedido(endereco);
             return View(pedido);
         }
 
-        public async Task<PedidosModel> GerarPedido(Address endereco)
+        public ActionResult VerPedido(string id)
+        {
+            var orderID = new ObjectId(id);
+            var order = orderCollection.AsQueryable<PedidosModel>().SingleOrDefault(x => x.OrderId == orderID);
+            return View(order);
+        }
+
+        public async Task<PedidosModel> GerarPedido(Endereco endereco)
         {
             var user = App_Start.SessionContext.Instance.GetUserData();
             List<PedidoElementModel> cartItems = (List<PedidoElementModel>)PIDI.App_Start.SessionManager.ReturnSessionObject("items");
@@ -117,12 +144,13 @@ namespace PIDI.Controllers.Commom
             var generatedOrder = new PedidosModel();
             generatedOrder.userId = user.userId;
             generatedOrder.OrderDate = DateTime.Now;
+            //generatedOrder.OrderDate = DateTime.Parse("16/10/2019 20:31:19"); usei para teste de filtragem
             generatedOrder.paymentType = "paypal";
             generatedOrder.State = endereco.uf;
             generatedOrder.City = endereco.cidade;
             generatedOrder.Country = "Brasil";
             generatedOrder.Address = endereco.rua;
-            generatedOrder.HasBeenShipped = false;
+            generatedOrder.orderState = "Aguardando Pagamento";
             generatedOrder.PostalCode = endereco.cep;
             generatedOrder.produtosRequisitados = cartItems;
             generatedOrder.Total = GerarTotal(cartItems);

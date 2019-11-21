@@ -44,19 +44,22 @@
 
                     @if (SessionContext.Instance.GetUserData() != null)
                     {
-                    <li style="font-size:20px">@Html.ActionLink("Perfil", "ShowProfile", "Account", new { area = "Account" }, new { @class = "nav-link" })</li> 
-                    <li style="font-size:20px">@Html.ActionLink("Logout", "Logout", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+                        <li style="font-size:20px">@Html.ActionLink("Perfil", "ShowProfile", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+
+                        <li style="font-size:20px">@Html.ActionLink("Logout", "Logout", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+
+                        <li style="font-size:20px">@Html.ActionLink("Gerar relatório Pedidos", "GerarRelatorioPedido", "Relatorio", new { dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek-6) , dtFinal = DateTime.Now.AddDays(1)}, new { @class = "nav-link" })</li>
                     }
                     else
                     {
-                <li style="font-size:20px">@Html.ActionLink("Login", "Login", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
-                <li style="font-size:20px">@Html.ActionLink("Cadastro", "Registration", "User", new { area = "User" }, new { @class = "nav-link" })</li>
+                        <li style="font-size:20px">@Html.ActionLink("Login", "Login", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+                        <li style="font-size:20px">@Html.ActionLink("Cadastro", "Registration", "User", new { area = "User" }, new { @class = "nav-link" })</li>
 
                     }
 
-                <li>&nbsp &nbsp <a href='@Url.Action("Index", "ShoppingCart", new { area = "ShoppingCart" })'><img src="~/img/Cart.png" alt="" /></a>
+                    <li>&nbsp &nbsp <a href='@Url.Action("Index", "ShoppingCart", new { area = "ShoppingCart" })'><img src="~/img/Cart.png" alt="" /></a>
 
-</ul>
+                </ul>
             </div>
         </div>
     </nav>

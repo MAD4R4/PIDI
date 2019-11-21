@@ -39,6 +39,7 @@
 
             @if (SessionManager.ReturnSessionObject("Cart") != null)
             {
+                var cart = new PIDI.Controllers.Commom.ShoppingCartController(); 
                 float valorTotal = 0f;
                 var cartItems = (List<CartModel>)SessionManager.ReturnSessionObject("Cart");
                 foreach (var item in cartItems)
@@ -47,8 +48,14 @@
                     <tr class="text-monospace h3 font-weight">
                         <td style="text-align: center">@item.product.ProductName</td>
                         <td style="text-align: center">R$ @item.product.Preco</td>
-                        <td>@item.Quantity</td>
-                        <td>R$ @(String.Format("{0:N0}", subvalor))</td>
+                        <td>
+                            @Html.ActionLink("-", "RemoveItem", "ShoppingCart", new { area = "ShoppingCart", id = item.product.Id }, new { @class = "btn btn-info " })
+                            @item.Quantity
+                            @Html.ActionLink("+", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.product.Id }, new { @class = "btn btn-info " })
+                        </td>
+                        <td>
+                            R$ @(String.Format("{0:N0}", subvalor))
+                        </td>
                         <td></td>
                     </tr>
                     valorTotal += subvalor;
@@ -56,9 +63,7 @@
                     Items.Add(new PedidoElementModel()
                     {
                         produtoRequisitado = item.product,
-                        //productImage = item.product.productImages[0],
                         Quantity = item.Quantity,
-                        UnitPrice = item.product.Preco
                     });
                 }
                 <tr class="text-monospace h3 font-weight">
@@ -72,12 +77,12 @@
                 PIDI.App_Start.SessionManager.RegisterSession("items", Items);
             }
 
-    </table>
+</table>
 
     <div class="table table-hover shadow-lg p-3 mb-5 bg-white rounded">
 
         @using (Html.BeginForm("VerPedido", "Pedido", FormMethod.Post))
-        {
+         {
             <div class="form-group text-monospace h4 font-weight-bold">
                 @Html.LabelFor(model => model.cep, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -118,7 +123,7 @@
                     <input type="submit" value="Finalizar cadastro" class="btn btn-info btn-lg" />
                 </div>
             </div>
-        }
+         }
     </div>
 
     <!-- Adicionando JQuery -->

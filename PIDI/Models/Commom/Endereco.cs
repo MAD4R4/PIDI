@@ -5,8 +5,9 @@ using System.Web;
 
 namespace PIDI.Models.Commom
 {
-    public class Address
+    public class Endereco
     {
+        public string NomeEndereco { get; set; }
         public string cep { get; set; }
         public string rua { get; set; }
         public string bairro { get; set; }

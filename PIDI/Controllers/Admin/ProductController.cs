@@ -106,6 +106,7 @@ namespace PIDI.Controllers.Admin
                 var filter = Builders<ProductModel>.Filter.Eq("_id", productID);
                 var update = Builders<ProductModel>.Update
                     .Set("ProductName", product.ProductName)
+                    .Set("Preco", product.Preco)
                     .Set("ProductDescription", product.ProductDescription)
                     .Set("Category", product.Category)
                     .Set("Quantity", product.Quantity);
@@ -138,6 +139,7 @@ namespace PIDI.Controllers.Admin
                 var filter = Builders<ProductModel>.Filter.Eq("_id", ObjectId.Parse(id));
                 var update = Builders<ProductModel>.Update
                     .Set("ProductName", product.ProductName)
+                    .Set("Preco", product.Preco)
                     .Set("ProductDescription", product.ProductDescription)
                     .Set("Category",product.Category)
                     .Set("Quantity", product.Quantity);

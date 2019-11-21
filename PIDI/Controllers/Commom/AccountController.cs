@@ -103,5 +103,19 @@ namespace PIDI.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
+
+        //AINDA PRECISA CHAMAR
+        public void RegistrarEndereco(Endereco endereco)
+        {
+            var user = userCollection.AsQueryable<UserModel>().FirstOrDefault(x => x.Id == SessionContext.Instance.GetUserData().Id);
+            user.enderecos.Add(endereco);
+
+            if (user != null)
+            {
+                var update = userCollection.FindOneAndUpdateAsync(Builders<UserModel>.Filter.Eq("_id", user.Id),
+                    Builders<UserModel>.Update
+                    .Set("Enderecos", user.enderecos));
+            }
+        }
     }
 }

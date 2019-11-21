@@ -28,27 +28,13 @@ namespace PIDI.Models.Commom
 
         public string Country { get; set; }
 
-        //public string Phone { get; set; }
-
-        //public string Email { get; set; }
-
         public List<PedidoElementModel> produtosRequisitados { get; set; }
 
-        [ScaffoldColumn(false)]
         public decimal Total { get; set; }
 
-        [ScaffoldColumn(false)]
         public string paymentType { get; set; }
 
-        [ScaffoldColumn(false)]
-        public bool HasBeenShipped { get; set; }
-
-        //public List<PedidoElementModel> OrderDetails { get; set; }
-
-
-
-
-
+        public string orderState { get; set; }
 
     }
 }

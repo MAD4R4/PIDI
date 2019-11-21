@@ -26,25 +26,27 @@ namespace PIDI.Controllers.Commom
         {
             return View();
         }
-        
-        public ActionResult OrderNow(string id)
+
+        public void OrderNow(string id)
         {
+
+            var product = ProductController.Instance.GetProduct(id);
             if (SessionManager.ReturnSessionObject(cartName) == null)
             {
                 List<CartModel> cartList = new List<CartModel> {
 
-                    new CartModel(ProductController.Instance.GetProduct(id),1)
+                    new CartModel(product,1)
                 };
 
                 SessionManager.RegisterSession(cartName, cartList);
             }
             else
             {
-                List<CartModel> cart = (List<CartModel>) SessionManager.ReturnSessionObject(cartName);
+                List<CartModel> cart = (List<CartModel>)SessionManager.ReturnSessionObject(cartName);
                 int index = CheckIfExist(id);
 
                 if (index == -1)
-                    cart.Add(new CartModel(ProductController.Instance.GetProduct(id), 1));
+                    cart.Add(new CartModel(product, 1));
                 else
                     cart[index].Quantity++;
 
@@ -52,14 +54,40 @@ namespace PIDI.Controllers.Commom
 
             }
 
-            return View("Index");
+            //return ConfirmAddItem(product);
+            //return View("Index");
+            Response.Redirect("/ShoppingCart/Index");
         }
+
+        public void RemoveItem(string id)
+        {
+            var product = ProductController.Instance.GetProduct(id);
+
+            if (SessionManager.ReturnSessionObject(cartName) != null)
+            {
+                List<CartModel> cart = (List<CartModel>)SessionManager.ReturnSessionObject(cartName);
+                int index = CheckIfExist(id);
+
+                if (index != -1)
+                {
+                    cart[index].Quantity--;
+                    if (cart[index].Quantity <= 0)
+                        cart.Remove(cart[index]);
+                    SessionManager.RegisterSession(cartName, cart);
+                }
+            }
+
+            //return ConfirmAddItem(product);
+            //return View("Index");
+            Response.Redirect("/ShoppingCart/Index");
+        }
+
 
         public int CheckIfExist(string id)
         {
             var productID = new ObjectId(id);
 
-            List<CartModel> lsCart = (List<CartModel>) SessionManager.ReturnSessionObject(cartName);
+            List<CartModel> lsCart = (List<CartModel>)SessionManager.ReturnSessionObject(cartName);
             for (int i = 0; i < lsCart.Count; i++)
             {
                 if (lsCart[i].product.Id == productID) return i;

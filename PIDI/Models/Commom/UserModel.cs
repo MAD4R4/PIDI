@@ -70,5 +70,8 @@ namespace PIDI.Models
         [BsonElement("Perfil")]
         public string Perfil { get; set; }
 
+        [BsonElement("Enderecos")]
+        public List<Endereco> enderecos { get; set; }
+
     }
 }
