@@ -101,12 +101,12 @@
 </div>
 <p>
     @{
-        if (Model.orderState != "Pago")
+        if (Model.orderState == "Aguardando Pagamento")
         {
-            Html.ActionLink("Pagar com Paypal", "PaymentWithPaypal", "Paypal", new { area = "Paypal", pedidoID = Model.OrderId }, new { @class = "btn btn-info " });
+            @Html.ActionLink("Pagar com Paypal", "PaymentWithPaypal", "Paypal", new { area = "Paypal", pedidoID = Model.OrderId }, new { @class = "btn btn-info " });
         }
         else
-        {
+        {            
             //COLOCAR OPÇÃO PARA IR PARA O MENU
         }
     }

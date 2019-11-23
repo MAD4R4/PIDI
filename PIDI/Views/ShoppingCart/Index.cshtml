@@ -1,6 +1,6 @@
 ﻿@using PIDI.Models.Commom;
 @using PIDI.App_Start;
-@model PIDI.Models.Commom.Address
+@model PIDI.Models.Commom.Endereco
 
 @{
     ViewBag.Title = "Index";
@@ -40,21 +40,21 @@
             @if (SessionManager.ReturnSessionObject("Cart") != null)
             {
                 var cart = new PIDI.Controllers.Commom.ShoppingCartController(); 
-                float valorTotal = 0f;
+                decimal valorTotal = 0;
                 var cartItems = (List<CartModel>)SessionManager.ReturnSessionObject("Cart");
                 foreach (var item in cartItems)
                 {
-                    float subvalor = item.product.Preco * item.Quantity;
+                    decimal subvalor = (((decimal)item.product.GetPrice(true)) * ((decimal)item.Quantity));
                     <tr class="text-monospace h3 font-weight">
                         <td style="text-align: center">@item.product.ProductName</td>
-                        <td style="text-align: center">R$ @item.product.Preco</td>
+                        <td style="text-align: center">R$ @item.product.GetPrice(true)</td>
                         <td>
                             @Html.ActionLink("-", "RemoveItem", "ShoppingCart", new { area = "ShoppingCart", id = item.product.Id }, new { @class = "btn btn-info " })
                             @item.Quantity
                             @Html.ActionLink("+", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.product.Id }, new { @class = "btn btn-info " })
                         </td>
                         <td>
-                            R$ @(String.Format("{0:N0}", subvalor))
+                            R$ @subvalor
                         </td>
                         <td></td>
                     </tr>

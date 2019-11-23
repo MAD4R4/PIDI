@@ -169,7 +169,7 @@ namespace PIDI.Controllers.Commom
             float valorTotal = 0f;
             for (int i = 0; i < items.Count; i++)
             {
-                valorTotal += items[i].produtoRequisitado.Preco * items[i].Quantity;
+                valorTotal += items[i].produtoRequisitado.GetPrice(true) * items[i].Quantity;
             }
 
             return (decimal) valorTotal;

@@ -110,11 +110,11 @@
                 </dd>
 
                 <dt class="h4 font-weight-bold">
-                    @Html.DisplayNameFor(model => model.Preco)
+                    Preço
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Preco)
+                    @Model.GetPrice(true)
                 </dd>
 
                 <dt class="h4 font-weight-bold">

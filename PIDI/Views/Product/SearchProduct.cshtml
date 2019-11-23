@@ -4,18 +4,16 @@
     ViewBag.Title = "SearhcProduct";
 }
 
-<h2>SearhcProduct</h2>
-
 @foreach (var item in Model)
 {
     <div class="col-lg-4 col-md-6 mb-4">
         <div class="card h-100">
-            <a href='@Url.Action("OrderNow", "ShoppingCart", new { area = "ShoppingCart" , id = item.Id})'><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <a href='@Url.Action("VisualizeProduct", "Product", new { area = "Product" , id = item.Id})'><img class="card-img-top" src="@Url.Action("ShowPicture", "Product", new {productId = item.Id , id = item.productImages[0].id })" alt=""></a>
             <div class="card-body">
                 <h4 class="card-title">
                     <a href="#">@item.ProductName</a>
                 </h4>
-                <h5>R$@item.Preco</h5>
+                <h5>R$@item.GetPrice(true)</h5>
                 <p class="card-text">@item.ProductDescription</p>
             </div>
             <div class="card-footer">

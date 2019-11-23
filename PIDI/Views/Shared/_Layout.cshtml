@@ -42,19 +42,42 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto d-flex align-items-center ">
 
-                    @if (SessionContext.Instance.GetUserData() != null)
-                    {
-                        <li style="font-size:20px">@Html.ActionLink("Perfil", "ShowProfile", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+                    @{
+                        var user = SessionContext.Instance.GetUserData();
+                        if (user != null)
+                        {
+                            if (user.Perfil != "Administrador")
+                            {
+                                <li style="font-size:20px">@Html.ActionLink("Perfil", "ShowProfile", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
 
-                        <li style="font-size:20px">@Html.ActionLink("Logout", "Logout", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+                            }
+                            else
+                            {
+                                <a style="font-size:20px" class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Relatórios
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="@Url.Action("GerarRelatorioPedido", "Relatorio",  new { dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Pedidos</a>
+                                </div>
 
-                        <li style="font-size:20px">@Html.ActionLink("Gerar relatório Pedidos", "GerarRelatorioPedido", "Relatorio", new { dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek-6) , dtFinal = DateTime.Now.AddDays(1)}, new { @class = "nav-link" })</li>
-                    }
-                    else
-                    {
-                        <li style="font-size:20px">@Html.ActionLink("Login", "Login", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
-                        <li style="font-size:20px">@Html.ActionLink("Cadastro", "Registration", "User", new { area = "User" }, new { @class = "nav-link" })</li>
+                                <a style="font-size:20px" class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Loja
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Product",  new { area="Product"})">Produtos</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Category",  new { area="Category"})">Categoria</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Promotion",  new { area="Promotion", dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Promoções</a>
+                                </div>
+                            }
 
+                            <li style="font-size:20px">@Html.ActionLink("Logout", "Logout", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+                        }
+                        else
+                        {
+                            <li style="font-size:20px">@Html.ActionLink("Login", "Login", "Account", new { area = "Account" }, new { @class = "nav-link" })</li>
+                            <li style="font-size:20px">@Html.ActionLink("Cadastro", "Registration", "User", new { area = "User" }, new { @class = "nav-link" })</li>
+
+                        }
                     }
 
                     <li>&nbsp &nbsp <a href='@Url.Action("Index", "ShoppingCart", new { area = "ShoppingCart" })'><img src="~/img/Cart.png" alt="" /></a>

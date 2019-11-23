@@ -22,7 +22,7 @@ namespace PIDI.Models
 
         [BsonElement("ProductDescription")]
         [Display(Name = "Descrição")]
-        public string ProductDescription{ get; set; }
+        public string ProductDescription { get; set; }
 
         [BsonElement("Preco")]
         public float Preco { get; set; }
@@ -35,6 +35,21 @@ namespace PIDI.Models
 
         [BsonElement("ProductImages")]
         public List<MongoPictureModel> productImages { get; set; }
+
+        public float GetPrice(bool promotion = false)
+        {
+            if (!promotion)
+                return Preco;
+            else
+            {
+                var newPrice = PIDI.Controllers.Admin.PromotionController.Instance.GetProductPrice(Id.ToString());
+
+                if (newPrice == 0)
+                    return Preco;
+                else
+                    return newPrice;
+            }
+        }
 
     }
 }

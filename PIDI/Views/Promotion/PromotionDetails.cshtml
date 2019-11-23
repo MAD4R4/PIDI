@@ -1,0 +1,50 @@
+﻿@model PIDI.Models.Admin.PromotionModel
+
+@{
+    ViewBag.Title = "PromotionDetails";
+}
+
+<h2>PromotionDetails</h2>
+
+<div>
+    <h4>PromotionModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PromotionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PromotionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.discountAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.discountAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InitDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InitDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

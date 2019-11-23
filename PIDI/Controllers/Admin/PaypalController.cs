@@ -3,6 +3,7 @@ using PIDI.Controllers.Commom;
 using PIDI.Models.Commom;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -85,12 +86,13 @@ namespace PIDI.Controllers.Admin
                     //If executed payment failed then we will show payment failure message to user
                     if (executedPayment.state.ToLower() != "approved")
                     {
-                        return View(PaymentFailure());
+                        return View(PaymentFailure(pedidoID));
                     }
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine("ERROR => " + ex.Message);
                 return View("FailureView");
             }
 
@@ -108,7 +110,7 @@ namespace PIDI.Controllers.Admin
 
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
         {
-            var subTotal = 0f;
+            decimal subTotal = 0;
             //create itemlist and add item objects to it
             var itemList = new ItemList() { items = new List<Item>() };
 
@@ -116,26 +118,27 @@ namespace PIDI.Controllers.Admin
             {
                 var target = cartItems[i];
                 string productname = target.produtoRequisitado.ProductName.ToString();
-                string productprice = target.produtoRequisitado.Preco.ToString();
+                string price= ((decimal)target.produtoRequisitado.GetPrice(true)).ToString();
+                string productprice = price.Replace(",", ".");
                 string qtd = target.Quantity.ToString();
                 string skuname = target.produtoRequisitado.Id.ToString();
 
-                subTotal += target.produtoRequisitado.Preco * target.Quantity;
+                subTotal += (decimal)target.produtoRequisitado.GetPrice(true) * (decimal)target.Quantity;
 
                 itemList.items.Add(new Item()
                 {
                     name = productname,
-                    currency = "USD",
+                    currency = "BRL",
                     price = productprice,
                     quantity = qtd,
                     sku = "sku"
                 });
             }
 
-            string taxa = "3";
-            string frete = "15";
+            decimal taxa = 3.50M;
+            decimal frete = 15;
             //subTotal = 1;
-            string valorTotal = (subTotal + float.Parse(taxa) + float.Parse(frete)).ToString();
+            string valorTotal = (subTotal + taxa + frete).ToString("G", CultureInfo.InvariantCulture);
 
             var payer = new Payer() { payment_method = "paypal" };
 
@@ -152,15 +155,15 @@ namespace PIDI.Controllers.Admin
             // Adding Tax, shipping and Subtotal details
             var details = new Details()
             {
-                tax = taxa,
-                shipping = frete,
-                subtotal = subTotal.ToString()
+                tax = taxa.ToString("G", CultureInfo.InvariantCulture),
+                shipping = frete.ToString("G", CultureInfo.InvariantCulture),
+                subtotal = subTotal.ToString("G", CultureInfo.InvariantCulture)
             };
 
             //Final amount with details
             var amount = new Amount()
             {
-                currency = "USD",
+                currency = "BRL",
                 total = valorTotal, // Total must be equal to sum of tax, shipping and subtotal.
                 details = details
             };
@@ -199,8 +202,12 @@ namespace PIDI.Controllers.Admin
             return RedirectToAction("VerPedido","Pedido",new { area = "Pedido" , id = order.OrderId.ToString() });
         }
 
-        public ActionResult PaymentFailure()
+        public ActionResult PaymentFailure(string orderID)
         {
+            var pedidoController = new PedidoController();
+            var order = pedidoController.GetOrder(orderID);
+            order.orderState = "Cancelado";
+            pedidoController.UpdateOrder(order);
             return View();
         }
     }

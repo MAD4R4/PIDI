@@ -1,0 +1,182 @@
+﻿@model PIDI.Models.Admin.PromotionModel
+
+@{
+    ViewBag.Title = "EditPromotion";
+}
+
+<h2>EditPromotion</h2>
+
+<link type="text/css" rel="stylesheet" href="~/Scripts/pytesNET-tail.select-d6454ba/css/bootstrap4/tail.select-default.min.css" />
+<script type="text/javascript" src="~/Scripts/pytesNET-tail.select-d6454ba/js/tail.select.min.js"></script>
+
+@using (Html.BeginForm("EditPromotion", "Promotion", FormMethod.Post, new { onsubmit = "return validate()", id = "promotionForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>PromotionModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.discountAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.discountAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.discountAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.InitDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.InitDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.InitDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Produtos">Produtos</label>
+            <div class="col-md-10">
+                <select class="select-move" multiple>
+                    <optgroup label="Produtos">
+
+                        @{
+                            var filterdList = PIDI.Controllers.Admin.ProductController.Instance.GetProducts(Model.products);
+                            foreach (var item in filterdList)
+                            {
+                                <option value=@item.Id>@item.ProductName</option>
+                            }
+                        }
+                    </optgroup>
+                </select>
+
+                <div class="tail-move-container">
+
+                    @*@{
+                            foreach (var item in Model.products)
+                            {
+                                <div class="select-handle" data-key="@item.Id" data-group="Produtos">@item.ProductName</div>
+                            }
+                        }*@
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+
+<!-- Adicionando JQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+     $(document).ready(function () {
+
+            var SelectField = tail.select(".select-move");
+
+            var myIdArray = [];
+            var myProductNameArray = [];
+
+            @foreach (var d in Model.products)
+            {
+                @:myIdArray.push("@d.Id");
+                @:myProductNameArray.push("@d.ProductName");
+            }
+
+            for (var i = 0; i < myIdArray.length; i++) {
+
+                SelectField.options.add({
+                    item: {
+                        key: myIdArray[i],
+                        value: myProductNameArray[i],
+                        group: "#",
+                        selected: true,
+                        disabled: false,
+                        description: "" 
+                    }
+                });
+            }
+    });
+
+    validate = function () {
+        var SelectField = tail.select(".select-move");
+        var files = SelectField.options.selected;
+
+        var myform = document.getElementById('promotionForm');
+        var data = new FormData(myform);
+        var array = [];
+
+        for (var x = 0; x < files.length; x++) {
+            array[x] = files[x].value;
+        }
+        data.append('productsString', array);
+        $.ajax({
+            type: "POST",
+            url: '/Promotion/EditPromotion?id=@Model.id',
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (result) {
+                console.log("FOOOOOOOOOOOI");
+                window.location = '/Promotion/Index'
+            },
+            error: function (xhr, status, p3, p4) {
+                var err = "Error " + " " + status + " " + p3 + " " + p4;
+                if (xhr.responseText && xhr.responseText[0] == "{")
+                    err = JSON.parse(xhr.responseText).Message;
+                console.log(err);
+            }
+        });
+
+        return false;
+    }
+
+    tail.select(".select-move", {
+        search: true,
+        descriptions: true,
+        hideSelected: true,
+        hideDisabled: true,
+        locale: "pt_BR",
+        multiShowCount: false,
+        stayOpen: false,
+        placeholder: "Selecione os produtos",
+        multiContainer: ".tail-move-container"
+    });
+
+
+
+</script>
+
+

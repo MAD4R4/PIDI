@@ -70,6 +70,13 @@ namespace PIDI.Controllers.Admin
             }
         }
 
+        public List<ProductModel> GetProducts(List<ProductModel> products)
+        {
+                List<ProductModel> Allproducts = productCollection.AsQueryable<ProductModel>().ToList();
+                var filteredList = Allproducts.Where(p => !products.Any(l => p.Id == l.Id)).ToList();
+                return filteredList;
+        }
+
         // GET: Product/Details/5
         public ActionResult Details(string id)
         {
@@ -106,7 +113,7 @@ namespace PIDI.Controllers.Admin
                 var filter = Builders<ProductModel>.Filter.Eq("_id", productID);
                 var update = Builders<ProductModel>.Update
                     .Set("ProductName", product.ProductName)
-                    .Set("Preco", product.Preco)
+                    .Set("Preco", product.GetPrice())
                     .Set("ProductDescription", product.ProductDescription)
                     .Set("Category", product.Category)
                     .Set("Quantity", product.Quantity);
@@ -139,7 +146,7 @@ namespace PIDI.Controllers.Admin
                 var filter = Builders<ProductModel>.Filter.Eq("_id", ObjectId.Parse(id));
                 var update = Builders<ProductModel>.Update
                     .Set("ProductName", product.ProductName)
-                    .Set("Preco", product.Preco)
+                    .Set("Preco", product.GetPrice())
                     .Set("ProductDescription", product.ProductDescription)
                     .Set("Category",product.Category)
                     .Set("Quantity", product.Quantity);
