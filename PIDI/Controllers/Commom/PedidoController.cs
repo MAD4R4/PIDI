@@ -174,5 +174,26 @@ namespace PIDI.Controllers.Commom
 
             return (decimal) valorTotal;
         }
+
+
+        public List<PedidosModel> PedidosConta()
+        {
+            var user = SessionContext.Instance.GetUserData();
+            var id = user.userId;
+
+            var order = orderCollection.Find(x => x.userId == id).ToList();
+
+            return order;
+        }
+        
+        public List<PedidosModel> PedidosConta(DateTime dtInicio, DateTime dtFinal, string orderState)
+        {
+            var user = SessionContext.Instance.GetUserData();
+            var id = user.userId;
+
+            var order = orderCollection.Find(x => x.userId == id).ToList();
+            var orders = order.FindAll(x => x.OrderDate.Date <= dtFinal && x.OrderDate.Date >= dtInicio && x.orderState == orderState).ToList();
+            return orders;
+        }
     }
 }

@@ -1,0 +1,109 @@
+﻿@model IEnumerable<PIDI.Models.Commom.PedidosModel>
+
+@{
+    ViewBag.Title = "Meus Pedidos";
+}
+
+<style>
+    .fieldName {
+        width: 120px;
+        height: 25px;
+        margin-left: 10px;
+    }
+</style>
+
+<form action="/User/MeusPedidos" method="post">
+    <div class="form-group text-monospace h4 font-weight-bold">
+        <div class="input-group">
+
+            <label class="fieldName" for="dtNascimento">Data de Inicio</label>
+            <input class="form-control form-control-lg text-box single-line" id="dtInicio" name="dtInicio" required="required" type="date" value="">
+            <span class="field-validation-valid text-danger" data-valmsg-for="dtInicio" data-valmsg-replace="true"></span>
+
+            <label class="fieldName" for="dtNascimento">Data Final</label>
+            <input class="form-control form-control-lg text-box single-line" id="dtFinal" name="dtFinal" required="required" type="date" value="">
+            <span class="field-validation-valid text-danger" data-valmsg-for="dtFinal" data-valmsg-replace="true"></span>
+
+            <label class="fieldName" for="orderState">Order State:</label>
+            <select class="form-control" id="orderState" name="orderState">
+                <option>Aguardando Pagamento</option>
+                <option>Pago</option>
+                <option>Cancelado</option>
+            </select>
+            &nbsp &nbsp
+            <input class="btn btn-info btn-lg" type="submit" value="Gerar relatório">
+        </div>
+
+    </div>
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.userId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.produtosRequisitados)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.orderState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+
+            <td>
+                @{
+                    for (int i = 0; i < item.produtosRequisitados.Count; i++)
+                    {
+                        if (i == 3)
+                        {
+                            <p>...</p>
+                            break;
+                        }
+
+                        var product = item.produtosRequisitados[i];
+                        <p>@product.produtoRequisitado.ProductName x @product.Quantity</p>
+                    }
+                }
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.orderState)
+            </td>
+
+            <td>
+                R$ @Html.DisplayFor(modelItem => item.Total)
+            </td>
+
+            <td>
+                @Html.ActionLink("Detalhes", "Details", "Pedido", new { id = item.OrderId }, new { area = "Pedido" })
+            </td>
+        </tr>
+    }
+
+</table>
+

@@ -19,7 +19,7 @@ namespace PIDI.Controllers.Admin
     {
         public static ProductController Instance
         {
-            get 
+            get
             {
                 return GetInstace();
             }
@@ -55,9 +55,11 @@ namespace PIDI.Controllers.Admin
             return View(products);
         }
 
-        public List<ProductModel> GetProducts(int quantity= 999 , bool all = false)
+        public List<ProductModel> GetProducts(int quantity = 999, bool all = false)
         {
-            if(all)
+            var deleted = CheckNullProducts();
+
+            if (all)
             {
                 List<ProductModel> products = productCollection.AsQueryable<ProductModel>().ToList();
                 return products;
@@ -72,9 +74,10 @@ namespace PIDI.Controllers.Admin
 
         public List<ProductModel> GetProducts(List<ProductModel> products)
         {
-                List<ProductModel> Allproducts = productCollection.AsQueryable<ProductModel>().ToList();
-                var filteredList = Allproducts.Where(p => !products.Any(l => p.Id == l.Id)).ToList();
-                return filteredList;
+            var deleted = CheckNullProducts();
+            List<ProductModel> Allproducts = productCollection.AsQueryable<ProductModel>().ToList();
+            var filteredList = Allproducts.Where(p => !products.Any(l => p.Id == l.Id)).ToList();
+            return filteredList;
         }
 
         // GET: Product/Details/5
@@ -102,7 +105,7 @@ namespace PIDI.Controllers.Admin
 
         // POST: Product/Create
         [HttpPost]
-        public ActionResult Create(string id , ProductModel product)
+        public ActionResult Create(string id, ProductModel product)
         {
             try
             {
@@ -148,9 +151,9 @@ namespace PIDI.Controllers.Admin
                     .Set("ProductName", product.ProductName)
                     .Set("Preco", product.GetPrice())
                     .Set("ProductDescription", product.ProductDescription)
-                    .Set("Category",product.Category)
+                    .Set("Category", product.Category)
                     .Set("Quantity", product.Quantity);
-                
+
                 var result = productCollection.UpdateOne(filter, update);
                 return RedirectToAction("Index");
             }
@@ -206,7 +209,7 @@ namespace PIDI.Controllers.Admin
             return Json("File uploaded successfully");
         }
 
-        public FileContentResult ShowPicture(string productId , string id)
+        public FileContentResult ShowPicture(string productId, string id)
         {
             //get picture document from db
             var product = productCollection.Find(x => x.Id == new ObjectId(productId)).SingleOrDefault();
@@ -222,7 +225,7 @@ namespace PIDI.Controllers.Admin
             return fileResult;
         }
 
-        public bool UploadImage(string id , List<MongoPictureModel> pictures)
+        public bool UploadImage(string id, List<MongoPictureModel> pictures)
         {
             try
             {
@@ -303,6 +306,12 @@ namespace PIDI.Controllers.Admin
             }
         }
 
+        public void DeleteProdutct(string id)
+        {
+            var filter = Builders<ProductModel>.Filter.Eq("_id", ObjectId.Parse(id));
+            productCollection.DeleteOne(filter);
+        }
+
         public ProductModel GetProduct(string id)
         {
             var productID = new ObjectId(id);
@@ -312,7 +321,7 @@ namespace PIDI.Controllers.Admin
 
         public ActionResult SearchProduct(string productToFind)
         {
-            var allProducts = GetProducts(all:true);
+            var allProducts = GetProducts(all: true);
             var products = new List<ProductModel>();
             var minValue = .4f;
 
@@ -328,7 +337,7 @@ namespace PIDI.Controllers.Admin
             return View(products);
         }
 
-        public ActionResult FilterProducts(string category , int quantity = 100)
+        public ActionResult FilterProducts(string category, int quantity = 100)
         {
             var products = productCollection.Find(x => x.Category == category).ToList();
             var LimitedList = products.OrderByDescending(x => x.ProductName).Take(quantity);
@@ -393,6 +402,22 @@ namespace PIDI.Controllers.Admin
 
             int stepsToSame = ComputeLevenshteinDistance(source, target);
             return (1.0 - ((double)stepsToSame / (double)Math.Max(source.Length, target.Length)));
+        }
+
+        public bool CheckNullProducts()
+        {
+            List<ProductModel> products = productCollection.AsQueryable<ProductModel>().ToList();
+            bool deletedNullProducts = false;
+            foreach (var item in products)
+            {
+                if (item.ProductName == null || item.productImages == null || item.Category == null)
+                {
+                    DeleteProdutct(item.Id.ToString());
+                    deletedNullProducts = true;
+                }
+            }
+
+            return deletedNullProducts;
         }
     }
 }
