@@ -77,8 +77,6 @@ namespace PIDI.Models
             var sRoles = userCollection.AsQueryable<UserModel>().FirstOrDefault(x => x.Id == userID).Perfil;
             string[] retorno = { sRoles };
             return retorno;
-
-            throw new NotImplementedException();
         }
         public override string[] GetUsersInRole(string roleName)
         {

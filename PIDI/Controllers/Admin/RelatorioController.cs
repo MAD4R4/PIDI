@@ -26,7 +26,8 @@ namespace PIDI.Controllers.Admin
         private static RelatorioController _instance;
 
         private MongoDBContext dBContext;
-        public static List<PedidosModel> lastRequest = new List<PedidosModel>();
+        public static List<PedidosModel> lastOrderRequest = new List<PedidosModel>();
+        public static List<UserModel> lastUserRequest = new List<UserModel>();
 
         private static RelatorioController GetInstace()
         {
@@ -57,13 +58,7 @@ namespace PIDI.Controllers.Admin
 
         }
 
-        public List<PedidosModel> RelatorioPedido()
-        {
-            var pedidos = orderCollection.AsQueryable<PedidosModel>().ToList();
-            var LimitedList = pedidos.OrderByDescending(x => x.OrderDate).Take(30);
-            return LimitedList.ToList();
-        }
-
+        #region Relatorio Pedido
         /// <summary>
         /// Gerar relatório de pedidos
         /// </summary>
@@ -72,7 +67,7 @@ namespace PIDI.Controllers.Admin
         {
             var pedidos = orderCollection.AsQueryable().ToList();
             var filtered = pedidos.FindAll(x => x.OrderDate.Date <= dtFinal && x.OrderDate.Date >= dtInicio);
-            lastRequest = filtered;
+            lastOrderRequest = filtered;
             return View(filtered);
         }
 
@@ -81,13 +76,13 @@ namespace PIDI.Controllers.Admin
         {
             var pedidos = orderCollection.AsQueryable().ToList();
             var filtered = pedidos.FindAll(x => x.OrderDate.Date <= dtFinal && x.OrderDate.Date >= dtInicio && x.orderState == orderState);
-            lastRequest = filtered;
+            lastOrderRequest = filtered;
             return View(filtered);
         }
 
         public void DownloadPedidosExcel()
         {
-            var collection = lastRequest;//db.GetCollection<EmployeeDetails>("EmployeeDetails").Find(new BsonDocument()).ToList();
+            var collection = lastOrderRequest;//db.GetCollection<EmployeeDetails>("EmployeeDetails").Find(new BsonDocument()).ToList();
 
             ExcelPackage Ep = new ExcelPackage();
             ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("Report");
@@ -128,6 +123,64 @@ namespace PIDI.Controllers.Admin
             Response.BinaryWrite(Ep.GetAsByteArray());
             Response.End();
         }
+        #endregion
 
+        #region Relatório Clientes
+        /// <summary>
+        /// Gerar relatório de pedidos
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GerarRelatorioCliente(DateTime dtInicio, DateTime dtFinal)
+        {
+            var pedidos = userCollection.AsQueryable().ToList();
+            var filtered = pedidos.FindAll(x => x.dtCriacao.Date <= dtFinal && x.dtCriacao.Date >= dtInicio);
+            lastUserRequest = filtered;
+            return View(filtered);
+        }
+
+        [HttpPost]
+        public ActionResult GerarRelatorioCliente(DateTime dtInicio, DateTime dtFinal, string orderState)
+        {
+            var pedidos = userCollection.AsQueryable().ToList();
+            var filtered = pedidos.FindAll(x => x.dtCriacao.Date <= dtFinal && x.dtCriacao.Date >= dtInicio );
+            lastUserRequest = filtered;
+            return View(filtered);
+        }
+
+        public void DownloadClienteExcel()
+        {
+            var collection = lastUserRequest;//db.GetCollection<EmployeeDetails>("EmployeeDetails").Find(new BsonDocument()).ToList();
+
+            ExcelPackage Ep = new ExcelPackage();
+            ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("Report");
+
+            Sheet.Cells["A1"].Value = "User ID";
+            Sheet.Cells["B1"].Value = "Nome";
+            Sheet.Cells["C1"].Value = "Sexo";
+            Sheet.Cells["D1"].Value = "Email";
+            Sheet.Cells["E1"].Value = "Data Criação";
+            Sheet.Cells["F1"].Value = "Data Nascimento";
+
+            int row = 2;
+            foreach (var item in collection)
+            {
+                Sheet.Cells[string.Format("A{0}", row)].Value = item.userId;
+                Sheet.Cells[string.Format("B{0}", row)].Value = item.nome;
+                Sheet.Cells[string.Format("C{0}", row)].Value = item.sexo;
+                Sheet.Cells[string.Format("D{0}", row)].Value = item.email;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.dtCriacao;
+                Sheet.Cells[string.Format("F{0}", row)].Value = item.dtNascimento;
+                row++;
+            }
+
+
+            Sheet.Cells["A:AZ"].AutoFitColumns();
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment: filename=" + "RelatorioPedido.xlsx");
+            Response.BinaryWrite(Ep.GetAsByteArray());
+            Response.End();
+        }
+        #endregion
     }
 }

@@ -36,6 +36,7 @@ namespace PIDI.Models
         [Compare("email", ErrorMessage = "Os campos de email precisam ser iguais!")]
         [DataType(DataType.Password)]
 
+        public DateTime dtCriacao { get; set; }
 
         public string ConfirmEmail { get; set; }
 

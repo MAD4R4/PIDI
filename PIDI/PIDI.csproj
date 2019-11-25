@@ -635,6 +635,7 @@
     <Content Include="Scripts\pytesNET-tail.select-d6454ba\LICENSE.md" />
     <Content Include="Scripts\pytesNET-tail.select-d6454ba\package.json" />
     <Content Include="Scripts\pytesNET-tail.select-d6454ba\README.md" />
+    <Content Include="Views\User\MeusPedidos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

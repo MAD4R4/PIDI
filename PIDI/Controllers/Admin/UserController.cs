@@ -38,6 +38,7 @@ namespace PIDI.Controllers.Admin
             if (query == null)
             {
                 user.Perfil = roleName;
+                user.dtCriacao = DateTime.Now;
                 userCollection.InsertOne(user);
                 return RedirectToAction("Index", "Home");
             }
@@ -65,6 +66,21 @@ namespace PIDI.Controllers.Admin
                 user.Perfil = "Administrador";
                 userCollection.InsertOne(user);
             }
+        }
+
+        public ActionResult MeusPedidos()
+        {
+            PIDI.Controllers.Commom.PedidoController pedidoController = new Commom.PedidoController();
+            var pedidosConta = pedidoController.PedidosConta();
+            return View(pedidosConta);
+        }
+
+        [HttpPost]
+        public ActionResult MeusPedidos(DateTime dtInicio, DateTime dtFinal, string orderState)
+        {
+            PIDI.Controllers.Commom.PedidoController pedidoController = new Commom.PedidoController();
+            var pedidosConta = pedidoController.PedidosConta(dtInicio, dtFinal, orderState);
+            return View(pedidosConta);
         }
 
     }
