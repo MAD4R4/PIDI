@@ -2,114 +2,116 @@
 
 @{
     ViewBag.Title = "GerarRelatorioPedido";
-}
+}&nbsp &nbsp
 
-<h2>Relatórios Pedidos </h2>
+<div class="container-fluid">
 
-<style>
-    .fieldName {
-        width: 120px;
-        height: 25px;
-        margin-left: 10px;
-    }
-</style>
+    <h2>Relatórios Pedidos </h2>&nbsp &nbsp
 
-<form action="/Relatorio/GerarRelatorioPedido" method="post">
-    <div class="form-group text-monospace h4 font-weight-bold">
-        <div class="input-group">
+    <style>
+        .fieldName {
+            width: 120px;
+            height: 30px;
+            margin-left: 10px;
+            text-align: center;
+        }
+    </style>
 
-            <label class="fieldName" for="dtNascimento">Data de Inicio</label>
-            <input class="form-control form-control-lg text-box single-line" id="dtInicio" name="dtInicio" required="required" type="date" value="">
-            <span class="field-validation-valid text-danger" data-valmsg-for="dtInicio" data-valmsg-replace="true"></span>
+    <form action="/Relatorio/GerarRelatorioPedido" method="post">
+        <div class="form-group text-monospace h4 font-weight-bold">
+            <div class="input-group">
 
-            <label class="fieldName" for="dtNascimento">Data Final</label>
-            <input class="form-control form-control-lg text-box single-line" id="dtFinal" name="dtFinal" required="required" type="date" value="">
-            <span class="field-validation-valid text-danger" data-valmsg-for="dtFinal" data-valmsg-replace="true"></span>
+                <label class="fieldName" for="dtNascimento">Data Início</label>
+                <input class="form-control form-control-lg text-box single-line" id="dtInicio" name="dtInicio" required="required" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="dtInicio" data-valmsg-replace="true"></span>
 
-            <label class="fieldName" for="orderState">Order State:</label>
-            <select class="form-control" id="orderState" name="orderState">
-                <option>Aguardando Pagamento</option>
-                <option>Pago</option>
-                <option>Cancelado</option>
-            </select>
-            &nbsp &nbsp
-            <input class="btn btn-info btn-lg" type="submit" value="Gerar relatório">
+                <label class="fieldName" for="dtNascimento">Data Final</label>
+                <input class="form-control form-control-lg text-box single-line" id="dtFinal" name="dtFinal" required="required" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="dtFinal" data-valmsg-replace="true"></span>
+
+                <label class="fieldName" for="orderState">Status Pedido</label>
+                <select class="form-control" id="orderState" name="orderState">
+                    <option>Aguardando Pagamento</option>
+                    <option>Pago</option>
+                    <option>Cancelado</option>
+                </select>
+                &nbsp &nbsp
+                <input class="btn btn-info btn-lg" type="submit" value="Gerar relatório">
+            </div>
+
         </div>
+    </form>
+    <table class="table table-striped h4" ; style="text-align: center">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.userId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.State)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.produtosRequisitados)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.orderState)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
 
-    </div>
-</form>
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.userId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.produtosRequisitados)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.orderState)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Total)
-        </th>
-
-        <th></th>
-    </tr>
-
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.userId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-
-            <td>
-                @{
-                    for (int i = 0; i < item.produtosRequisitados.Count; i++)
-                    {
-                        if (i == 3)
+                <td>
+                    @{
+                        for (int i = 0; i < item.produtosRequisitados.Count; i++)
                         {
-                            <p>...</p>
-                            break;
+                            if (i == 3)
+                            {
+                                <p>...</p>
+                                break;
+                            }
+
+                            var product = item.produtosRequisitados[i];
+                            <p>@product.produtoRequisitado.ProductName x @product.Quantity</p>
                         }
-
-                        var product = item.produtosRequisitados[i];
-                        <p>@product.produtoRequisitado.ProductName x @product.Quantity</p>
                     }
-                }
-            </td>
+                </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.orderState)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderState)
+                </td>
 
-            <td>
-                R$ @Html.DisplayFor(modelItem => item.Total)
-            </td>
+                <td>
+                    R$ @Html.DisplayFor(modelItem => item.Total)
+                </td>
 
-            <td>
-                @Html.ActionLink("Detalhes", "Details", "Pedido", new { id = item.OrderId }, new { area = "Pedido" })
-            </td>
-        </tr>
-    }
-
-</table>
-<td>
-    @{
-        @Html.ActionLink("Export Excel", "DownloadPedidosExcel", "Relatorio");
-    }
-</td>
+                <td>
+                    @Html.ActionLink("Detalhes", "Details", "Pedido",new { area = "Pedido", id = item.OrderId},new { @class = "btn btn-info btn-lg " } )
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+        <td>
+            @{
+                @Html.ActionLink("Exportar para Excel", "DownloadPedidosExcel", "Relatorio" ,new { @class = "btn btn-info btn-lg " });
+            }
+        </td>
+</div>
