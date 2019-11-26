@@ -54,7 +54,7 @@ namespace PIDI.Controllers.Admin
 
             productCollection = dBContext.database.GetCollection<ProductModel>("product");
             orderCollection = dBContext.database.GetCollection<PedidosModel>("orders");
-            userCollection = dBContext.database.GetCollection<UserModel>("user");
+            userCollection = dBContext.database.GetCollection<UserModel>("users");
 
         }
 
@@ -139,10 +139,10 @@ namespace PIDI.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult GerarRelatorioCliente(DateTime dtInicio, DateTime dtFinal, string orderState)
+        public ActionResult GerarRelatorioCliente(DateTime dtInicio, DateTime dtFinal, string clientState)
         {
-            var pedidos = userCollection.AsQueryable().ToList();
-            var filtered = pedidos.FindAll(x => x.dtCriacao.Date <= dtFinal && x.dtCriacao.Date >= dtInicio );
+            var clientes = userCollection.AsQueryable().ToList();
+            var filtered = clientes.FindAll(x => x.dtCriacao.Date <= dtFinal.Date && x.dtCriacao.Date >= dtInicio.Date );
             lastUserRequest = filtered;
             return View(filtered);
         }
@@ -164,7 +164,7 @@ namespace PIDI.Controllers.Admin
             int row = 2;
             foreach (var item in collection)
             {
-                Sheet.Cells[string.Format("A{0}", row)].Value = item.userId;
+                Sheet.Cells[string.Format("A{0}", row)].Value = item.Id;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.nome;
                 Sheet.Cells[string.Format("C{0}", row)].Value = item.sexo;
                 Sheet.Cells[string.Format("D{0}", row)].Value = item.email;

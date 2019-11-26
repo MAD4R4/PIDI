@@ -103,16 +103,13 @@ namespace PIDI.Controllers.Admin
             try
             {
                 string[] productsId = productsString.Split(',');
-
                 List<ProductModel> products = new List<ProductModel>();
-
                 for (int i = 0; i < productsId.Length; i++)
                 {
                     var target = productsId[i];
                     var product = ProductController.Instance.GetProduct(target);
                     products.Add(product);
                 }
-
                 promotion.products = products;
 
                 promotionCollection.InsertOne(promotion);

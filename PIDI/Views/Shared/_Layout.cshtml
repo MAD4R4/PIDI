@@ -53,20 +53,25 @@
                             }
                             else
                             {
-                                <a style="font-size:20px" class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Relatórios
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="@Url.Action("GerarRelatorioPedido", "Relatorio",  new { dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Pedidos</a>
+                                <div class="dropdown">
+                                    <a style="font-size:20px" class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Relatórios
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="relatorio">
+                                        <a class="dropdown-item" href="@Url.Action("GerarRelatorioPedido", "Relatorio",  new { dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Pedidos</a>
+                                        <a class="dropdown-item" href="@Url.Action("GerarRelatorioCliente", "Relatorio",  new { dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Clientes</a>
+                                    </div>
                                 </div>
+                                <div class="dropdown">
 
-                                <a style="font-size:20px" class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Loja
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Product",  new { area="Product"})">Produtos</a>
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Category",  new { area="Category"})">Categoria</a>
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Promotion",  new { area="Promotion", dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Promoções</a>
+                                    <a style="font-size:20px" class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Loja
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Product",  new { area="Product"})">Produtos</a>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Category",  new { area="Category"})">Categoria</a>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Promotion",  new { area="Promotion", dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Promoções</a>
+                                    </div>
                                 </div>
                             }
 

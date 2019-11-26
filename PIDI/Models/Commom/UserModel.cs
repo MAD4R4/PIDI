@@ -31,13 +31,15 @@ namespace PIDI.Models
 
         public string email { get; set; }
 
+        [Display(Name = "Data Criação")]
+        [BsonElement("dtCriacao")]
+        [DataType(DataType.DateTime)]
+        public DateTime dtCriacao { get; set; }
+
         [BsonIgnore]
         [Display(Name = "Confirmar Email")]
         [Compare("email", ErrorMessage = "Os campos de email precisam ser iguais!")]
-        [DataType(DataType.Password)]
-
-        public DateTime dtCriacao { get; set; }
-
+        [DataType(DataType.EmailAddress)]
         public string ConfirmEmail { get; set; }
 
         [Display(Name = "Data de Nascimento")]
