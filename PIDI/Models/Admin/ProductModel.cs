@@ -16,7 +16,7 @@ namespace PIDI.Models
         public ObjectId Id { get; set; }
 
         [BsonElement("ProductName")]
-        [Display(Name = "Nome Produto")]
+        [Display(Name = "Produto")]
 
         public string ProductName { get; set; }
 
@@ -25,15 +25,19 @@ namespace PIDI.Models
         public string ProductDescription { get; set; }
 
         [BsonElement("Preco")]
+        [Display(Name = "Preço")]
         public float Preco { get; set; }
 
         [BsonElement("Quantity")]
+        [Display(Name = "Quantidade")]
         public string Quantity { get; set; }
 
         [BsonElement("Category")]
+        [Display(Name = "Categoria")]
         public string Category { get; set; }
 
         [BsonElement("ProductImages")]
+        [Display(Name = "Imagem do produto")]
         public List<MongoPictureModel> productImages { get; set; }
 
         public float GetPrice(bool promotion = false)
