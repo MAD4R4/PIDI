@@ -1,0 +1,93 @@
+﻿@model IEnumerable<PIDI.Controllers.Admin.relatorioFinanceiroElement>
+
+@{
+    ViewBag.Title = "GerarRelatorioFinanceiro";
+}&nbsp &nbsp
+
+<div class="container-fluid">
+
+    <h2>Relatórios Pedidos </h2>&nbsp &nbsp
+
+    <style>
+        .fieldName {
+            width: 120px;
+            height: 30px;
+            margin-left: 10px;
+            text-align: center;
+        }
+    </style>
+
+    <form action="/Relatorio/GerarRelatorioFinanceiro" method="post">
+        <div class="form-group text-monospace h4 font-weight-bold">
+            <div class="input-group">
+
+                <label class="fieldName" for="dtNascimento">Data Início</label>
+                <input class="form-control form-control-lg text-box single-line" id="dtInicio" name="dtInicio" required="required" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="dtInicio" data-valmsg-replace="true"></span>
+
+                <label class="fieldName" for="dtNascimento">Data Final</label>
+                <input class="form-control form-control-lg text-box single-line" id="dtFinal" name="dtFinal" required="required" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="dtFinal" data-valmsg-replace="true"></span>
+
+                <label class="fieldName" for="orderState">Status Pedido</label>
+                <select class="form-control" id="orderState" name="orderState">
+                    <option>Aguardando Pagamento</option>
+                    <option>Pago</option>
+                    <option>Cancelado</option>
+                </select>
+                &nbsp &nbsp
+                <input class="btn btn-info btn-lg" type="submit" value="Gerar relatório">
+            </div>
+
+        </div>
+    </form>
+    <table class="table table-striped h4" ; style="text-align: center">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.produto.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.produto.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.quantidadeVendidas)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.dinheiroGanho)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.produto.Id.ToString()
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.produto.ProductName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quantidadeVendidas)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dinheiroGanho)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detalhes", "DetalhesRelatorio", new { vendas = PIDI.Controllers.Admin.RelatorioController.Instance.DictionaryToString(item.diasVendas) }, new { @class = "btn btn-info btn-lg " })
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <td>
+        @{
+            @Html.ActionLink("Exportar para Excel", "DownloadPedidosExcel", "Relatorio", new { @class = "btn btn-info btn-lg " });
+        }
+    </td>
+</div>

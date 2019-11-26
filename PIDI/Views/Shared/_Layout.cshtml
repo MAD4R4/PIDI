@@ -56,6 +56,7 @@
                                     <div class="dropdown-menu" aria-labelledby="relatorio">
                                         <a class="dropdown-item" href="@Url.Action("GerarRelatorioPedido", "Relatorio",  new { dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Pedidos</a>
                                         <a class="dropdown-item" href="@Url.Action("GerarRelatorioCliente", "Relatorio",  new { dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Clientes</a>
+                                        <a class="dropdown-item" href="@Url.Action("GerarRelatorioFinanceiro", "Relatorio",  new { dtInicio = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek - 6), dtFinal = DateTime.Now.AddDays(1) })">Financeiro</a>
                                     </div>
                                 </div>
                                 <div class="dropdown">

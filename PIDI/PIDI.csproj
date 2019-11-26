@@ -109,6 +109,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -251,6 +252,9 @@
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
+    <Content Include="Scripts\CanvasJSChart\canvasjs.min.js" />
+    <Content Include="Scripts\CanvasJSChart\canvasjs.react.js" />
+    <Content Include="Scripts\CanvasJSChart\jquery.canvasjs.min.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.js" />
@@ -637,6 +641,8 @@
     <Content Include="Scripts\pytesNET-tail.select-d6454ba\README.md" />
     <Content Include="Views\User\MeusPedidos.cshtml" />
     <Content Include="Views\Relatorio\GerarRelatorioCliente.cshtml" />
+    <Content Include="Views\Relatorio\GerarRelatorioFinanceiro.cshtml" />
+    <Content Include="Views\Relatorio\DetalhesRelatorio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

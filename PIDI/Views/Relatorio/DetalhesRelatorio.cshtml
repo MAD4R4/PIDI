@@ -1,0 +1,32 @@
+﻿@model Dictionary<DateTime, int>
+@{
+    ViewBag.Title = "DetalhesRelatorio";
+}
+
+<h2>DetalhesRelatorio</h2>
+<script src="~/Scripts/CanvasJSChart/canvasjs.min.js"></script>
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+    window.onload = function () {
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme: "light2",
+				animationEnabled: true,
+				title: {
+					text: "Dias de venda"
+				},
+				subtitles: [
+					{ text: "Produto" }
+				],
+				data: [
+                    {
+                        type: "column", //change type to bar, line, area, pie, etc
+                                        //Uncomment below line to add data coming from the controller.
+					dataPoints: @Html.Raw(ViewBag.DataPoints),
+				}
+				]
+			});
+			chart.render();
+		};
+</script>
