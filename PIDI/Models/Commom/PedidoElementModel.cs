@@ -13,5 +13,7 @@ namespace PIDI.Models.Commom
         public ProductModel produtoRequisitado { get; set; }
 
         public int Quantity { get; set; }
+
+        public MongoPictureModel userImage { get; set; }
     }
 }

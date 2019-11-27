@@ -1,58 +1,26 @@
 ﻿@model IEnumerable<PIDI.Models.ProductModel>
 
 @{
-    ViewBag.Title = "FilterProducts";
+    ViewBag.Title = "SearhcProduct";
 }
 
-<h2>FilterProducts</h2>
+@foreach (var item in Model)
+{
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+            <a href='@Url.Action("VisualizeProduct", "Product", new { area = "Product" , id = item.Id})'><img class="card-img-top" src="@Url.Action("ShowPicture", "Product", new {productId = item.Id , id = item.productImages[0].id })" alt=""></a>
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="#">@item.ProductName</a>
+                </h4>
+                <h5>R$@item.GetPrice(true)</h5>
+                <p class="card-text">@item.ProductDescription</p>
+            </div>
+            <div class="card-footer">
+                @Html.ActionLink("Adicionar ao carrinho", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info " })
+                @Html.ActionLink("Comprar", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info " })
+            </div>
+        </div>
+    </div>
+}
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            Preço
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @item.GetPrice(true)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-    }
-
-</table>

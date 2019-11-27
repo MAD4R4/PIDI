@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "GerarRelatorioPedido";
+    DateTime horaGerado = DateTime.Now;
 }&nbsp &nbsp
 
 <div class="container-fluid">
@@ -45,13 +46,22 @@
         <thead>
             <tr>
                 <th>
+                    Dia Geração relatório : @horaGerado | Periodo Analisado @ViewBag.dtInicio - @ViewBag.dtFinal
+                <td>
+                    @{
+                        @Html.ActionLink("Exportar para Excel", "DownloadPedidosExcel", "Relatorio", new { horaGerado = horaGerado.ToString() }, new { @class = "btn btn-info btn-lg " });
+                    }
+                </td>
+                </th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderId)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.OrderDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.userId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.State)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.produtosRequisitados)
@@ -67,51 +77,43 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.userId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.State)
-                </td>
-
-                <td>
-                    @{
-                        for (int i = 0; i < item.produtosRequisitados.Count; i++)
-                        {
-                            if (i == 3)
+                <tr>
+                    <td>
+                        @item.OrderId.ToString()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderDate)
+                    </td>
+                    <td>
+                        @{
+                            for (int i = 0; i < item.produtosRequisitados.Count; i++)
                             {
-                                <p>...</p>
-                                break;
+                                if (i == 3)
+                                {
+                                    <p>...</p>
+                                    break;
+                                }
+
+                                var product = item.produtosRequisitados[i];
+                                <p>@product.produtoRequisitado.ProductName x @product.Quantity</p>
                             }
-
-                            var product = item.produtosRequisitados[i];
-                            <p>@product.produtoRequisitado.ProductName x @product.Quantity</p>
                         }
-                    }
-                </td>
+                    </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.orderState)
-                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.orderState)
+                    </td>
 
-                <td>
-                    R$ @Html.DisplayFor(modelItem => item.Total)
-                </td>
+                    <td>
+                        R$ @Html.DisplayFor(modelItem => item.Total)
+                    </td>
 
-                <td>
-                    @Html.ActionLink("Detalhes", "Details", "Pedido",new { area = "Pedido", id = item.OrderId},new { @class = "btn btn-info btn-lg " } )
-                </td>
-            </tr>
+                    <td>
+                        @Html.ActionLink("Detalhes", "Details", "Pedido", new { area = "Pedido", id = item.OrderId }, new { @class = "btn btn-info btn-lg " })
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
-        <td>
-            @{
-                @Html.ActionLink("Exportar para Excel", "DownloadPedidosExcel", "Relatorio" ,new { @class = "btn btn-info btn-lg " });
-            }
-        </td>
+        
 </div>

@@ -15,6 +15,9 @@
         <thead>
             <tr>
                 <th class="text-monospace h3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
                     @Html.DisplayNameFor(model => model.ProductName)
                 </th>
                 <th class="text-monospace h3 font-weight-bold">
@@ -35,6 +38,9 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>
+                        @item.Id.ToString()
+                    </td>
                     <td >
                         @Html.DisplayFor(modelItem => item.ProductName)
                     </td>
@@ -45,7 +51,7 @@
                         @Html.DisplayFor(modelItem => item.Category)
                     </td>
                     <td>
-                        @item.GetPrice(true)
+                        R$ @item.GetPrice(true)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Quantity)

@@ -4,6 +4,13 @@
 
 @{
     ViewBag.Title = "Index";
+    var cart = new PIDI.Controllers.Commom.ShoppingCartController();
+    List<CartModel> cartItems = null;
+    PIDI.Controllers.Commom.PedidoController.orderImages.Clear();
+    if (SessionManager.ReturnSessionObject("Cart") != null)
+    {
+        cartItems = (List<CartModel>)SessionManager.ReturnSessionObject("Cart");
+    }
 }
 
 <div class="container shadow p-3 mb-5 bg-white rounded">
@@ -12,10 +19,9 @@
     @{
         List<PedidoElementModel> Items = new List<PedidoElementModel>();
         PIDI.App_Start.SessionManager.FreeSession("items");
-
     }
     <hr />
-    <table class="table table-hover";style="text-align: center">
+    <table class="table table-hover" ;style="text-align: center">
         <thead>
             <tr>
                 <th class="text-monospace h3 font-weight-bold">
@@ -31,6 +37,9 @@
                     SubTotal
                 </th>
                 <th class="text-monospace h3 font-weight-bold">
+                    Imagem a ser colocada
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
                     Total
                 </th>
             </tr>
@@ -39,25 +48,28 @@
 
             @if (SessionManager.ReturnSessionObject("Cart") != null)
             {
-                var cart = new PIDI.Controllers.Commom.ShoppingCartController();
                 decimal valorTotal = 0;
-                var cartItems = (List<CartModel>)SessionManager.ReturnSessionObject("Cart");
+                //var cartItems = (List<CartModel>)SessionManager.ReturnSessionObject("Cart");
                 foreach (var item in cartItems)
                 {
                     decimal subvalor = (((decimal)item.product.GetPrice(true)) * ((decimal)item.Quantity));
-                    <tr class="text-monospace h3 font-weight">
-                        <td style="text-align: center">@item.product.ProductName</td>
-                        <td style="text-align: center">R$ @item.product.GetPrice(true)</td>
-                        <td>
-                            @Html.ActionLink("-", "RemoveItem", "ShoppingCart", new { area = "ShoppingCart", id = item.product.Id }, new { @class = "btn btn-info " })
-                            @item.Quantity
-                            @Html.ActionLink("+", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.product.Id }, new { @class = "btn btn-info " })
-                        </td>
-                        <td>
-                            R$ @subvalor
-                        </td>
-                        <td></td>
-                    </tr>
+            <tr class="text-monospace h3 font-weight">
+                <td style="text-align: center">@item.product.ProductName</td>
+                <td style="text-align: center">R$ @item.product.GetPrice(true)</td>
+                <td>
+                    @Html.ActionLink("-", "RemoveItem", "ShoppingCart", new { area = "ShoppingCart", id = item.product.Id }, new { @class = "btn btn-info " })
+                    @item.Quantity
+                    @Html.ActionLink("+", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.product.Id }, new { @class = "btn btn-info " })
+                </td>
+                <td>
+                    R$ @subvalor
+                </td>
+                <td>
+                    <input type="file" id="@item.product.Id.ToString()" onchange="CallService(this)" />
+                </td>
+                <td></td>
+
+            </tr>
                     valorTotal += subvalor;
 
                     Items.Add(new PedidoElementModel()
@@ -67,6 +79,7 @@
                     });
                 }
                 <tr class="text-monospace h3 font-weight">
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -82,7 +95,10 @@
 <div class="container">
     <div class="d-flex justify-content-center align-items-center text-monospace h2 font-weight-bold shadow-lg p-3 mb-5 bg-white rounded">
         <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.99999 0.333252C4.83999 0.333252 0.666656 3.98492 0.666656 8.49992C0.666656 14.6249 9.99999 23.6666 9.99999 23.6666C9.99999 23.6666 19.3333 14.6249 19.3333 8.49992C19.3333 3.98492 15.16 0.333252 9.99999 0.333252ZM9.99999 11.4166C8.15999 11.4166 6.66666 10.1099 6.66666 8.49992C6.66666 6.88992 8.15999 5.58325 9.99999 5.58325C11.84 5.58325 13.3333 6.88992 13.3333 8.49992C13.3333 10.1099 11.84 11.4166 9.99999 11.4166Z" fill="#5bc0de"></path>
+            <path d="M9.99999 0.333252C4.83999 0.333252 0.666656 3.98492 0.666656 8.49992C0.666656 14.6249 9.99999 23.6666 9.99999
+                  23.6666C9.99999 23.6666 19.3333 14.6249 19.3333 8.49992C19.3333 3.98492 15.16 0.333252 9.99999 0.333252ZM9.99999
+                  11.4166C8.15999 11.4166 6.66666 10.1099 6.66666 8.49992C6.66666 6.88992 8.15999 5.58325 9.99999 5.58325C11.84 5.58325
+                  13.3333 6.88992 13.3333 8.49992C13.3333 10.1099 11.84 11.4166 9.99999 11.4166Z" fill="#5bc0de"></path>
         </svg>&nbsp
         <div class="p-2 bd-highlight">ENDEREÇO PARA ENTREGA</div>
     </div>
@@ -105,31 +121,32 @@
                     <div class="form-group text-monospace h4 font-weight-bold">
                         @Html.LabelFor(model => model.rua, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.rua, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                            @Html.EditorFor(model => model.rua, new { htmlAttributes = new { @class = "form-control form-control-lg", @readonly = true } })
                             @Html.ValidationMessageFor(model => model.rua, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group text-monospace h4 font-weight-bold">
                         @Html.LabelFor(model => model.bairro, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.bairro, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                            @Html.EditorFor(model => model.bairro, new { htmlAttributes = new { @class = "form-control form-control-lg", @readonly = true } })
                             @Html.ValidationMessageFor(model => model.bairro, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group text-monospace h4 font-weight-bold">
                         @Html.LabelFor(model => model.cidade, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.cidade, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                            @Html.EditorFor(model => model.cidade, new { htmlAttributes = new { @class = "form-control form-control-lg", @readonly = true } })
                             @Html.ValidationMessageFor(model => model.cidade, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group text-monospace h4 font-weight-bold">
                         @Html.LabelFor(model => model.uf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.uf, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                            @Html.EditorFor(model => model.uf, new { htmlAttributes = new { @class = "form-control form-control-lg", @readonly = true } })
                             @Html.ValidationMessageFor(model => model.uf, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Continuar" class="btn btn-info btn-lg" />
@@ -150,8 +167,30 @@
 <!-- Adicionando Javascript -->
 <script type="text/javascript">
 
-    $(document).ready(function () {
+    function CallService(selectedObject) {
 
+         var data = new FormData();
+        var files = selectedObject.files[0];
+        data.append("id", selectedObject.id);
+        data.append("theFile", files);
+
+        $.ajax({
+            url: '@Url.Action("TransformToString", "Product", new { area = "Product" })',
+            type: 'POST',
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (color) {
+                ;
+            },
+            error: function () {
+                alert('Error occured');
+            }
+        });
+    }
+
+        $(document).ready(function () {
         function limpa_formulário_cep() {
             // Limpa valores do formulário de cep.
             $("#rua").val("");
@@ -160,32 +199,24 @@
             $("#uf").val("");
             //$("#ibge").val("");
         }
-
         //Quando o campo cep perde o foco.
         $("#cep").blur(function () {
-
             //Nova variável "cep" somente com dígitos.
             var cep = $(this).val().replace(/\D/g, '');
-
             //Verifica se campo cep possui valor informado.
             if (cep != "") {
-
                 //Expressão regular para validar o CEP.
                 var validacep = /^[0-9]{8}$/;
-
                 //Valida o formato do CEP.
                 if (validacep.test(cep)) {
-
                     //Preenche os campos com "..." enquanto consulta webservice.
                     $("#rua").val("...");
                     $("#bairro").val("...");
                     $("#cidade").val("...");
                     $("#uf").val("...");
                     //$("#ibge").val("...");
-
                     //Consulta o webservice viacep.com.br/
                     $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
-
                         if (!("erro" in dados)) {
                             //Atualiza os campos com os valores da consulta.
                             $("#rua").val(dados.logradouro);
@@ -215,4 +246,8 @@
     });
 
 </script>
+
+
+
+
 

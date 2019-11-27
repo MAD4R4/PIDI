@@ -16,7 +16,7 @@ namespace PIDI.Controllers.Commom
     {
         private MongoDBContext dBContext;
         private IMongoCollection<PedidosModel> orderCollection;
-
+        public static Dictionary<string, string> orderImages= new Dictionary<string, string>();
         public PedidoController()
         {
             dBContext = new MongoDBContext();
@@ -153,6 +153,22 @@ namespace PIDI.Controllers.Commom
             generatedOrder.orderState = "Aguardando Pagamento";
             generatedOrder.PostalCode = endereco.cep;
             generatedOrder.produtosRequisitados = cartItems;
+
+            for (int i = 0; i < orderImages.Count; i++)
+            {
+                var target = generatedOrder.produtosRequisitados[i];
+                var key = target.produtoRequisitado.Id.ToString();
+                if (orderImages.ContainsKey(key))
+                {
+                    var img = new MongoPictureModel();
+                    img.PictureDataAsString = orderImages[key];
+                    img.id = ObjectId.GenerateNewId();
+
+                    target.userImage = img;
+                }
+            }
+
+
             generatedOrder.Total = GerarTotal(cartItems);
             PedidosModel x = await CriarPedido(generatedOrder);
             return x;

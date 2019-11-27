@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using PIDI.Models.Commom;
+using PIDI.Controllers.Commom;
 
 namespace PIDI.Controllers.Admin
 {
@@ -246,6 +247,25 @@ namespace PIDI.Controllers.Admin
 
         }
 
+        public FileContentResult GetImage(string orderId , string pictureId)
+        {
+
+            PedidoController a = new PedidoController();
+            var order = a.GetOrder(orderId);
+            var pictureObjectId = ObjectId.Parse(pictureId);
+
+            var returned = order.produtosRequisitados.Find(x => x.userImage.id == pictureObjectId);
+
+            //transform the picture's data from string to an array of bytes
+            var thePictureDataAsBytes = Convert.FromBase64String(returned.userImage.PictureDataAsString);
+
+            var fileResult = new FileContentResult(thePictureDataAsBytes, "image/jpeg");
+
+            //return array of bytes as the image's data to action's response. 
+            //We set the image's content mime type to image/jpeg
+            return fileResult;
+        }
+
 
         public MongoPictureModel TransformToImage(HttpPostedFileBase theFile)
         {
@@ -275,6 +295,33 @@ namespace PIDI.Controllers.Admin
             }
             else
                 return null;
+
+        }
+
+        public bool TransformToString(string id , HttpPostedFileBase theFile)
+        {
+            if (theFile.ContentLength > 0)
+            {
+                //get the file's name 
+                string theFileName = Path.GetFileName(theFile.FileName);
+
+                //get the bytes from the content stream of the file
+                byte[] thePictureAsBytes = new byte[theFile.ContentLength];
+                using (BinaryReader theReader = new BinaryReader(theFile.InputStream))
+                {
+                    thePictureAsBytes = theReader.ReadBytes(theFile.ContentLength);
+                }
+
+                //convert the bytes of image data to a string using the Base64 encoding
+                string thePictureDataAsString = Convert.ToBase64String(thePictureAsBytes);
+
+                if(!PedidoController.orderImages.ContainsKey(id))
+                    PedidoController.orderImages.Add(id, thePictureDataAsString);
+
+                return true;
+            }
+            else
+                return false;
 
         }
 
