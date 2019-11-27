@@ -3,114 +3,120 @@
 @{
     ViewBag.Title = "Index";
 }
+<div class=" container-fluid">
+    &nbsp
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("Incluir promoção", "CreatePromotion", null, new { @class = "btn btn-info btn-lg" })
+        </div>
+    </div>
 
-<h2>Index</h2>
+    <table class="table table-striped h4" ; style="text-align: center">
+        <thead>
+            <tr>
+                <th class="text-monospace h3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.PromotionName)
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.discountAmount)
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    ID Produto
+                </th>
 
-<p>
-    @Html.ActionLink("Create New", "CreatePromotion")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PromotionName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.discountAmount)
-        </th>
-        <th>
-            ID Produto
-        </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.products)
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    Categoria Produto
+                </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.products)
-        </th>
-        <th>
-           Categoria Produto
-        </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.InitDate)
+                </th>
+                <th class="text-monospace h3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromotionName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.discountAmount)
+                    </td>
 
-        <th>
-            @Html.DisplayNameFor(model => model.InitDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PromotionName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.discountAmount)%
-            </td>
+                    <td>
 
-            <td>
+                        @{
+                            var produtos = item.products;
 
-                @{
-                    var produtos = item.products;
-                       
-                    for (int i = 0; i < produtos.Count; i++)
-                    {
-                        <p> @produtos[i].Id.ToString()</p>
+                            for (int i = 0; i < produtos.Count; i++)
+                            {
+                                <p> @produtos[i].Id.ToString()</p>
 
-                        if(i==2)
-                        {
-                            <p>...</p>
-                            break;
+                                if (i == 2)
+                                {
+                                    <p>...</p>
+                                    break;
+                                }
+                            }
+
                         }
-                    }
+                    </td>
 
-                }
-            </td>
+                    <td>
 
-            <td>
+                        @{
+                            for (int i = 0; i < produtos.Count; i++)
+                            {
+                                <p> @produtos[i].ProductName</p>
 
-                @{
-                    for (int i = 0; i < produtos.Count; i++)
-                    {
-                        <p> @produtos[i].ProductName</p>
+                                if (i == 2)
+                                {
+                                    <p>...</p>
+                                    break;
+                                }
+                            }
 
-                        if(i==2)
-                        {
-                            <p>...</p>
-                            break;
                         }
-                    }
+                    </td>
 
-                }
-            </td>
+                    <td>
 
-            <td>
+                        @{
+                            for (int i = 0; i < produtos.Count; i++)
+                            {
+                                <p> @produtos[i].Category</p>
 
-                @{
-                    for (int i = 0; i < produtos.Count; i++)
-                    {
-                        <p> @produtos[i].Category</p>
-
-                        if (i == 2)
-                        {
-                            <p>...</p>
-                            break;
+                                if (i == 2)
+                                {
+                                    <p>...</p>
+                                    break;
+                                }
+                            }
                         }
-                    }
-                }
-            </td>
+                    </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.InitDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditPromotion", new { id = item.id }) |
-                @Html.ActionLink("Details", "PromotionDetails", new { id = item.id }) |
-                @Html.ActionLink("Delete", "DeletePromotion", new { id = item.id })
-            </td>
-        </tr>
-    }
 
-</table>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InitDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "EditPromotion", new { id = item.id }, new { @class = "btn btn-info btn-lg " })
+                        @Html.ActionLink("Detalhes", "PromotionDetails", new { id = item.id }, new { @class = "btn btn-info btn-lg " })
+                        @Html.ActionLink("Deletar", "DeletePromotion", new { id = item.id }, new { @class = "btn btn-info btn-lg " })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
