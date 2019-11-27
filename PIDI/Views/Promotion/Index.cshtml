@@ -3,49 +3,53 @@
 @{
     ViewBag.Title = "Index";
 }
+    <div class=" container-fluid">&nbsp
+        <div class="row">
+            <div class="col-md-12">
+                @Html.ActionLink("Incluir promoção", "CreatePromotion", null, new { @class = "btn btn-info btn-lg" })
+            </div>
+        </div>
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "CreatePromotion")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PromotionName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.discountAmount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InitDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PromotionName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.discountAmount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InitDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "EditPromotion", new { id = item.id }) |
-            @Html.ActionLink("Details", "PromotionDetails", new { id = item.id}) |
-            @Html.ActionLink("Delete", "DeletePromotion", new { id= item.id })
-        </td>
-    </tr>
-}
-
-</table>
+        <table class="table table-striped h4" ; style="text-align: center">
+            <thead>
+                <tr>
+                    <th class="text-monospace h3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.PromotionName)
+                    </th>
+                    <th class="text-monospace h3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.discountAmount)
+                    </th>
+                    <th class="text-monospace h3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.InitDate)
+                    </th>
+                    <th class="text-monospace h3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.EndDate)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromotionName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.discountAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InitDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndDate)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "EditPromotion", new { id = item.id }, new { @class = "btn btn-info btn-lg " })
+                            @Html.ActionLink("Detalhes", "PromotionDetails", new { id = item.id } , new { @class = "btn btn-info btn-lg " }) 
+                            @Html.ActionLink("Deletar", "DeletePromotion", new { id = item.id } , new { @class = "btn btn-info btn-lg " })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

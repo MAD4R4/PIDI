@@ -4,88 +4,80 @@
     ViewBag.Title = "CreatePromotion";
     var produtos = PIDI.Controllers.Admin.ProductController.Instance.GetProducts(10);
 }
+<div class="container">
+    <h2>Cadastrar promoção</h2>
 
-<h2>CreatePromotion</h2>
-
-<link type="text/css" rel="stylesheet" href="~/Scripts/pytesNET-tail.select-d6454ba/css/bootstrap4/tail.select-default.min.css" />
-<script type="text/javascript" src="~/Scripts/pytesNET-tail.select-d6454ba/js/tail.select.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="~/Scripts/pytesNET-tail.select-d6454ba/css/bootstrap4/tail.select-default.min.css" />
+    <script type="text/javascript" src="~/Scripts/pytesNET-tail.select-d6454ba/js/tail.select.min.js"></script>
 
 
 
-@using (Html.BeginForm("CreatePromotion", "Promotion", FormMethod.Post, new { onsubmit = "return validate()", id = "promotionForm" }))
-{
-    @Html.AntiForgeryToken()
+    @using (Html.BeginForm("CreatePromotion", "Promotion", FormMethod.Post, new { onsubmit = "return validate()", id = "promotionForm" }))
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>PromotionModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.discountAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.discountAmount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.discountAmount, "", new { @class = "text-danger" })
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.discountAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.discountAmount, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.discountAmount, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.InitDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.InitDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.InitDate, "", new { @class = "text-danger" })
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.InitDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.InitDate, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.InitDate, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
+            <div class="form-group text-monospace h4 font-weight-bold">
+                <label class="control-label col-md-2" for="Produtos">Produtos</label>
+                <div class="col-md-10">
+                    <select class="select-move" multiple>
+                        <optgroup label="Produtos">
 
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="Produtos">Produtos</label>
-            <div class="col-md-10">
-                <select class="select-move" multiple>
-                    <optgroup label="Produtos">
-
-                        @{
-                            foreach (var item in produtos)
-                            {
-                                <option value=@item.Id>@item.ProductName</option>
+                            @{
+                                foreach (var item in produtos)
+                                {
+                                    <option value=@item.Id>@item.ProductName</option>
+                                }
                             }
-                        }
-                    </optgroup>
-                </select>
+                        </optgroup>
+                    </select>
 
-                <div class="tail-move-container"></div>
+                    <div class="tail-move-container"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" onclick="return validate()" value="Cadastrar   " class="btn btn-info btn-lg" />&nbsp &nbsp
+                    @Html.ActionLink("Retornar", "Index", null, new { @class = "btn btn-info btn-lg"})
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" onclick="return validate()" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    }
 </div>
-
-
 <!-- Adicionando JQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -104,7 +96,7 @@
         for (var x = 0; x < files.length; x++) {
             array[x] = files[x].value;
         }
-        data.append('productsString',array);
+        data.append('productsString', array);
         $.ajax({
             type: "POST",
             url: '/Promotion/CreatePromotion',
@@ -113,7 +105,7 @@
             data: data,
             success: function (result) {
                 console.log("FOOOOOOOOOOOI");
-                window.location='/Promotion/Index'
+                window.location = '/Promotion/Index'
             },
             error: function (xhr, status, p3, p4) {
                 var err = "Error " + " " + status + " " + p3 + " " + p4;
