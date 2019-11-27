@@ -15,13 +15,6 @@ namespace PIDI.Controllers.Commom
     {
         private string cartName = "Cart";
 
-
-        //private ShoppingCartController()
-        //{
-        //    productController = new ProductController();
-        //}
-
-        // GET: ShoppingCart
         public ActionResult Index()
         {
             return View();
@@ -53,9 +46,6 @@ namespace PIDI.Controllers.Commom
                 SessionManager.RegisterSession(cartName, cart);
 
             }
-
-            //return ConfirmAddItem(product);
-            //return View("Index");
             Response.Redirect("/ShoppingCart/Index");
         }
 
@@ -76,9 +66,6 @@ namespace PIDI.Controllers.Commom
                     SessionManager.RegisterSession(cartName, cart);
                 }
             }
-
-            //return ConfirmAddItem(product);
-            //return View("Index");
             Response.Redirect("/ShoppingCart/Index");
         }
 

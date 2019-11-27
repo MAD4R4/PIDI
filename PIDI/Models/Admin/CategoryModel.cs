@@ -16,10 +16,5 @@ namespace PIDI.Models
         [BsonElement("CategoryName")]
         [Display(Name ="Nome da Categoria")]
         public string CategoryName { get; set; }
-
-        [BsonElement("CategoryDescription")]
-        [Display(Name = "Descrição")]
-
-        public string CategoryDescription { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "GerarRelatorioCliente";
+    DateTime horaGerado = DateTime.Now;
 }
 
 <h2>Relatórios Clientes </h2>
@@ -26,12 +27,7 @@
             <input class="form-control form-control-lg text-box single-line" id="dtFinal" name="dtFinal" required="required" type="date" value="">
             <span class="field-validation-valid text-danger" data-valmsg-for="dtFinal" data-valmsg-replace="true"></span>
 
-            @*<label class="fieldName" for="orderState">Order State:</label>
-            <select class="form-control" id="orderState" name="orderState">
-                <option>Aguardando Pagamento</option>
-                <option>Pago</option>
-                <option>Cancelado</option>
-            </select>*@
+
             &nbsp &nbsp
             <input class="btn btn-info btn-lg" type="submit" value="Gerar relatório">
         </div>
@@ -39,66 +35,74 @@
     </div>
 </form>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.userId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.sobrenome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dtCriacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dtNascimento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.cpf)
-        </th>
-
-        <th></th>
-    </tr>
-
-
-    @foreach (var item in Model)
-    {
+<table class="table table-striped h4" ; style="text-align: center">
+    <thead>
         <tr>
+            <th>
+                Dia Geração relatório : @horaGerado | Periodo Analisado @ViewBag.dtInicio - @ViewBag.dtFinal
             <td>
-                @*@Html.DisplayFor(modelItem => item.userId)*@
-                @item.Id.ToString();
+                @{
+                    @Html.ActionLink("Export Excel", "DownloadClienteExcel", "Relatorio", new { horaGerado = horaGerado.ToString()}, new { @class = "btn btn-info btn-lg " });
+                }
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sobrenome)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.dtCriacao)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.dtNascimento)
-            </td>
-
-            <td>
-                R$ @Html.DisplayFor(modelItem => item.cpf)
-            </td>
-
-            @*<td>
-                @Html.ActionLink("Detalhes", "Details", "Pedido", new { id = item.userId }, new { area = "Pedido" })
-            </td>*@
+            </th>
         </tr>
-    }
+    </thead>
+    <thead>
 
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.userId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sobrenome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dtCriacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dtNascimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cpf)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.userId)*@
+                    @item.Id.ToString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.sobrenome)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.dtCriacao)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.dtNascimento)
+                </td>
+
+                <td>
+                   @Html.DisplayFor(modelItem => item.cpf)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
-<td>
-    @{
-        @Html.ActionLink("Export Excel", "DownloadClienteExcel", "Relatorio");
-    }
-</td>
+

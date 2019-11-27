@@ -3,110 +3,121 @@
 @{
     ViewBag.Title = "VerPedido";
 }
+<style>
+    .flex-item {
+        flex-grow: 50;
+        max-height: 60px;
+        max-width: 60px;
+    }
+</style>
 
-    <div class="container-fluid">
-        <h2>Resumo do pedido</h2>
-        <hr />
+<div class="container-fluid">
+    <h2>Resumo do pedido</h2>
+    <hr />
 
-        <div class="row">
-            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                @Html.DisplayNameFor(model => model.OrderId)
-            </div>
-            <div class="col-lg-8 border-bottom text-monospace h4">
-                @Model.OrderId.ToString()
-            </div>
+    <div class="row">
+        <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+            @Html.DisplayNameFor(model => model.OrderId)
         </div>
-        <div class="row">
-            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                @Html.DisplayNameFor(model => model.OrderDate)
-            </div>
-            <div class="col-lg-8 border-bottom text-monospace h4">
-                @Html.DisplayFor(model => model.OrderDate)
-            </div>
+        <div class="col-lg-8 border-bottom text-monospace h4">
+            @Model.OrderId.ToString()
         </div>
-        <div class="row">
-            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                @Html.DisplayNameFor(model => model.Address)
-            </div>
-            <div class="col-lg-8 border-bottom text-monospace h4">
-                @Html.DisplayFor(model => model.Address)
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+            @Html.DisplayNameFor(model => model.OrderDate)
         </div>
-        <div class="row">
-            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                @Html.DisplayNameFor(model => model.City)
-            </div>
-            <div class="col-lg-8 border-bottom text-monospace h4">
-                @Html.DisplayFor(model => model.City)
-            </div>
+        <div class="col-lg-8 border-bottom text-monospace h4">
+            @Html.DisplayFor(model => model.OrderDate)
         </div>
-        <div class="row">
-            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                @Html.DisplayNameFor(model => model.State)
-            </div>
-            <div class="col-lg-8 border-bottom text-monospace h4">
-                @Html.DisplayFor(model => model.State)
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+            @Html.DisplayNameFor(model => model.Address)
         </div>
-        <div class="row">
-            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                @Html.DisplayNameFor(model => model.PostalCode)
-            </div>
-            <div class="col-lg-8 border-bottom text-monospace h4">
-                @Html.DisplayFor(model => model.PostalCode)
-            </div>
+        <div class="col-lg-8 border-bottom text-monospace h4">
+            @Html.DisplayFor(model => model.Address)
         </div>
-        <div class="row">
-            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                @Html.DisplayNameFor(model => model.Country)
-            </div>
-            <div class="col-lg-8 border-bottom text-monospace h4">
-                @Html.DisplayFor(model => model.Country)
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+            @Html.DisplayNameFor(model => model.City)
         </div>
-        <div class="row">
-            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                @Html.DisplayNameFor(model => model.orderState)
-            </div>
-            <div class="col-lg-8 border-bottom text-monospace h4">
-                @Html.DisplayFor(model => model.orderState)
-            </div>
+        <div class="col-lg-8 border-bottom text-monospace h4">
+            @Html.DisplayFor(model => model.City)
         </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+            @Html.DisplayNameFor(model => model.State)
+        </div>
+        <div class="col-lg-8 border-bottom text-monospace h4">
+            @Html.DisplayFor(model => model.State)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </div>
+        <div class="col-lg-8 border-bottom text-monospace h4">
+            @Html.DisplayFor(model => model.PostalCode)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+            @Html.DisplayNameFor(model => model.Country)
+        </div>
+        <div class="col-lg-8 border-bottom text-monospace h4">
+            @Html.DisplayFor(model => model.Country)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+            @Html.DisplayNameFor(model => model.orderState)
+        </div>
+        <div class="col-lg-8 border-bottom text-monospace h4">
+            @Html.DisplayFor(model => model.orderState)
+        </div>
+    </div>
 
-        <div class="row">
-            @{
-                var produtos = Model.produtosRequisitados;
-                <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                    Produtos:
+    <div class="row">
+        @{
+            var produtos = Model.produtosRequisitados;
+            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+                Produtos:
+            </div>
+
+            foreach (var item in produtos)
+            {
+                <div class="col-md-auto border-bottom text-monospace h4 ">
+                    @item.produtoRequisitado.ProductName
                 </div>
 
-                foreach (var item in produtos)
-                {
-                    <div class="col-md-auto border-bottom text-monospace h4 ">
-                        @item.produtoRequisitado.ProductName
-                    </div>
+                <div class="flex-item">
+                    <img class="flex-item" src="@Url.Action("GetImage", "Product", new { orderId = Model.OrderId.ToString() , pictureId = item.userImage.id.ToString() })" />
+                </div>
 
-                }
             }
-        </div>
-        <div class="row">
-            <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
-                @Html.DisplayNameFor(model => model.Total)
-            </div>
-            <div class="col-lg-8 border-bottom text-monospace h4">
-                @Html.DisplayFor(model => model.Total)
-            </div>
-        </div>&nbsp
-        <p>
-            @{
-                if (Model.orderState == "Aguardando Pagamento")
-                {
-                    @Html.ActionLink("Pagar com PayPal", "PaymentWithPaypal", "PayPal", new { area = "Paypal", pedidoID = Model.OrderId }, new { @class = "btn btn-info btn-lg " });
-                }
-                else
-                {
-                    //COLOCAR OPÇÃO PARA IR PARA O MENU
-                }
-            }
-        </p>
+        }
     </div>
+    <div class="row">
+        <div class="col-lg-4 border-bottom  text-monospace h4 font-weight-bold">
+            @Html.DisplayNameFor(model => model.Total)
+        </div>
+        <div class="col-lg-8 border-bottom text-monospace h4">
+            @Html.DisplayFor(model => model.Total)
+        </div>
+    </div>&nbsp
+    <p>
+        @{
+            if (Model.orderState == "Aguardando Pagamento")
+            {
+                @Html.ActionLink("Pagar com PayPal", "PaymentWithPaypal", "PayPal", new { area = "Paypal", pedidoID = Model.OrderId }, new { @class = "btn btn-info btn-lg " });
+            }
+            else
+            {
+                //COLOCAR OPÇÃO PARA IR PARA O MENU
+            }
+        }
+    </p>
+</div>

@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "GerarRelatorioFinanceiro";
+    DateTime horaGerado = DateTime.Now;
+
 }&nbsp &nbsp
 
 <div class="container-fluid">
@@ -29,12 +31,6 @@
                 <input class="form-control form-control-lg text-box single-line" id="dtFinal" name="dtFinal" required="required" type="date" value="">
                 <span class="field-validation-valid text-danger" data-valmsg-for="dtFinal" data-valmsg-replace="true"></span>
 
-                <label class="fieldName" for="orderState">Status Pedido</label>
-                <select class="form-control" id="orderState" name="orderState">
-                    <option>Aguardando Pagamento</option>
-                    <option>Pago</option>
-                    <option>Cancelado</option>
-                </select>
                 &nbsp &nbsp
                 <input class="btn btn-info btn-lg" type="submit" value="Gerar relatório">
             </div>
@@ -42,6 +38,16 @@
         </div>
     </form>
     <table class="table table-striped h4" ; style="text-align: center">
+        <thead>
+            <tr>
+                <th>
+                    Dia Geração relatório : @horaGerado | Periodo Analisado @ViewBag.dtInicio - @ViewBag.dtFinal
+                <td>
+                    @Html.ActionLink("Exportar para Excel", "DownloadPedidosExcel", "Relatorio", new { horaGerado = horaGerado.ToString( )}, new { @class = "btn btn-info btn-lg " })
+                </td>
+                </th>
+            </tr>
+        </thead>
         <thead>
             <tr>
                 <th>
@@ -75,7 +81,7 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.dinheiroGanho)
+                       R$ @Html.DisplayFor(modelItem => item.dinheiroGanho)
                     </td>
                     <td>
                         @Html.ActionLink("Detalhes", "DetalhesRelatorio", new { vendas = PIDI.Controllers.Admin.RelatorioController.Instance.DictionaryToString(item.diasVendas) }, new { @class = "btn btn-info btn-lg " })
@@ -85,9 +91,5 @@
             }
         </tbody>
     </table>
-    <td>
-        @{
-            @Html.ActionLink("Exportar para Excel", "DownloadPedidosExcel", "Relatorio", new { @class = "btn btn-info btn-lg " });
-        }
-    </td>
+    
 </div>

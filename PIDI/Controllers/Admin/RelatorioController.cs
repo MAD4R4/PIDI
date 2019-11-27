@@ -70,6 +70,10 @@ namespace PIDI.Controllers.Admin
             var pedidos = orderCollection.AsQueryable().ToList();
             var filtered = pedidos.FindAll(x => x.OrderDate.Date <= dtFinal && x.OrderDate.Date >= dtInicio);
             lastOrderRequest = filtered;
+
+            ViewBag.dtInicio = dtInicio.ToString("dd/MM/yyyy");
+            ViewBag.dtFinal = dtFinal.ToString("dd/MM/yyyy");
+
             return View(filtered);
         }
 
@@ -79,29 +83,32 @@ namespace PIDI.Controllers.Admin
             var pedidos = orderCollection.AsQueryable().ToList();
             var filtered = pedidos.FindAll(x => x.OrderDate.Date <= dtFinal && x.OrderDate.Date >= dtInicio && x.orderState == orderState);
             lastOrderRequest = filtered;
+
+            ViewBag.dtInicio = dtInicio.ToString("dd/MM/yyyy");
+            ViewBag.dtFinal = dtFinal.ToString("dd/MM/yyyy");
+
             return View(filtered);
         }
 
-        public void DownloadPedidosExcel()
+        public void DownloadPedidosExcel(string horaGerado)
         {
             var collection = lastOrderRequest;//db.GetCollection<EmployeeDetails>("EmployeeDetails").Find(new BsonDocument()).ToList();
 
             ExcelPackage Ep = new ExcelPackage();
             ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("Report");
 
-            Sheet.Cells["A1"].Value = "Order ID";
-            Sheet.Cells["B1"].Value = "User ID";
-            Sheet.Cells["C1"].Value = "State";
-            Sheet.Cells["D1"].Value = "Requested Products";
-            Sheet.Cells["E1"].Value = "Order State";
-            Sheet.Cells["F1"].Value = "Total";
+            Sheet.Cells["A1"].Value = "Dia Geração Relatório";
+            Sheet.Cells["B1"].Value = "Order ID";
+            Sheet.Cells["C1"].Value = "Requested Products";
+            Sheet.Cells["D1"].Value = "Order State";
+            Sheet.Cells["E1"].Value = "Total";
 
             int row = 2;
+            Sheet.Cells[string.Format("A{0}", row)].Value = horaGerado;
+
             foreach (var item in collection)
             {
-                Sheet.Cells[string.Format("A{0}", row)].Value = item.OrderId;
-                Sheet.Cells[string.Format("B{0}", row)].Value = item.userId;
-                Sheet.Cells[string.Format("C{0}", row)].Value = item.State;
+                Sheet.Cells[string.Format("B{0}", row)].Value = item.OrderId;
 
                 string produtos = "";
                 for (int i = 0; i < item.produtosRequisitados.Count; i++)
@@ -110,10 +117,10 @@ namespace PIDI.Controllers.Admin
                     produtos += " x " + item.produtosRequisitados[i].Quantity + " \n ";
                 }
 
-                Sheet.Cells[string.Format("D{0}", row)].Style.WrapText = true;
-                Sheet.Cells[string.Format("D{0}", row)].Value = produtos;
-                Sheet.Cells[string.Format("E{0}", row)].Value = item.orderState;
-                Sheet.Cells[string.Format("F{0}", row)].Value = item.Total;
+                Sheet.Cells[string.Format("C{0}", row)].Style.WrapText = true;
+                Sheet.Cells[string.Format("C{0}", row)].Value = produtos;
+                Sheet.Cells[string.Format("D{0}", row)].Value = item.orderState;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.Total;
                 row++;
             }
 
@@ -137,6 +144,10 @@ namespace PIDI.Controllers.Admin
             var pedidos = userCollection.AsQueryable().ToList();
             var filtered = pedidos.FindAll(x => x.dtCriacao.Date <= dtFinal && x.dtCriacao.Date >= dtInicio);
             lastUserRequest = filtered;
+
+            ViewBag.dtInicio = dtInicio.ToString("dd/MM/yyyy");
+            ViewBag.dtFinal = dtFinal.ToString("dd/MM/yyyy");
+
             return View(filtered);
         }
 
@@ -146,32 +157,39 @@ namespace PIDI.Controllers.Admin
             var clientes = userCollection.AsQueryable().ToList();
             var filtered = clientes.FindAll(x => x.dtCriacao.Date <= dtFinal.Date && x.dtCriacao.Date >= dtInicio.Date);
             lastUserRequest = filtered;
+            
+            ViewBag.dtInicio = dtInicio.ToString("dd/MM/yyyy");
+            ViewBag.dtFinal = dtFinal.ToString("dd/MM/yyyy");
+
             return View(filtered);
         }
 
-        public void DownloadClienteExcel()
+        public void DownloadClienteExcel(string horaGerado)
         {
             var collection = lastUserRequest;//db.GetCollection<EmployeeDetails>("EmployeeDetails").Find(new BsonDocument()).ToList();
 
             ExcelPackage Ep = new ExcelPackage();
             ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("Report");
 
-            Sheet.Cells["A1"].Value = "User ID";
-            Sheet.Cells["B1"].Value = "Nome";
-            Sheet.Cells["C1"].Value = "Sexo";
-            Sheet.Cells["D1"].Value = "Email";
-            Sheet.Cells["E1"].Value = "Data Criação";
-            Sheet.Cells["F1"].Value = "Data Nascimento";
+            Sheet.Cells["A1"].Value = "Dia Geração Relatório";
+            Sheet.Cells["B1"].Value = "User ID";
+            Sheet.Cells["C1"].Value = "Nome";
+            Sheet.Cells["D1"].Value = "Sexo";
+            Sheet.Cells["E1"].Value = "Email";
+            Sheet.Cells["F1"].Value = "Data Criação";
+            Sheet.Cells["G1"].Value = "Data Nascimento";
 
             int row = 2;
+            Sheet.Cells[string.Format("A{0}", row)].Value = horaGerado;
+
             foreach (var item in collection)
             {
-                Sheet.Cells[string.Format("A{0}", row)].Value = item.Id;
-                Sheet.Cells[string.Format("B{0}", row)].Value = item.nome;
-                Sheet.Cells[string.Format("C{0}", row)].Value = item.sexo;
-                Sheet.Cells[string.Format("D{0}", row)].Value = item.email;
-                Sheet.Cells[string.Format("E{0}", row)].Value = item.dtCriacao;
-                Sheet.Cells[string.Format("F{0}", row)].Value = item.dtNascimento;
+                Sheet.Cells[string.Format("B{0}", row)].Value = item.Id;
+                Sheet.Cells[string.Format("C{0}", row)].Value = item.nome;
+                Sheet.Cells[string.Format("D{0}", row)].Value = item.sexo;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.email;
+                Sheet.Cells[string.Format("F{0}", row)].Value = item.dtCriacao;
+                Sheet.Cells[string.Format("G{0}", row)].Value = item.dtNascimento;
                 row++;
             }
 
@@ -257,6 +275,11 @@ namespace PIDI.Controllers.Admin
 
             }
 
+
+            ViewBag.dtInicio = dtInicio.ToString("dd/MM/yyyy");
+            ViewBag.dtFinal = dtFinal.ToString("dd/MM/yyyy");
+
+
             return View(produtos);
         }
 
@@ -327,6 +350,11 @@ namespace PIDI.Controllers.Admin
 
             }
 
+
+            ViewBag.dtInicio = dtInicio.ToString("dd/MM/yyyy");
+            ViewBag.dtFinal = dtFinal.ToString("dd/MM/yyyy");
+
+
             return View(produtos);
         }
 
@@ -358,13 +386,14 @@ namespace PIDI.Controllers.Admin
             return s;
         }
 
-        public void DownloadFinanceiroExcel()
+        public void DownloadFinanceiroExcel(string horaGerado)
         {
             var collection = lastUserRequest;//db.GetCollection<EmployeeDetails>("EmployeeDetails").Find(new BsonDocument()).ToList();
 
             ExcelPackage Ep = new ExcelPackage();
             ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("Report");
 
+            Sheet.Cells["A1"].Value = "Dia Geração Relatório";
             Sheet.Cells["A1"].Value = "User ID";
             Sheet.Cells["B1"].Value = "Nome";
             Sheet.Cells["C1"].Value = "Sexo";
@@ -373,9 +402,10 @@ namespace PIDI.Controllers.Admin
             Sheet.Cells["F1"].Value = "Data Nascimento";
 
             int row = 2;
+            Sheet.Cells[string.Format("A{0}", row)].Value = horaGerado;
+
             foreach (var item in collection)
             {
-                Sheet.Cells[string.Format("A{0}", row)].Value = item.Id;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.nome;
                 Sheet.Cells[string.Format("C{0}", row)].Value = item.sexo;
                 Sheet.Cells[string.Format("D{0}", row)].Value = item.email;
