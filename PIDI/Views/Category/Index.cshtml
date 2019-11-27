@@ -16,9 +16,7 @@
                 <th class="text-monospace h3 font-weight-bold">
                     @Html.DisplayNameFor(model => model.CategoryName)
                 </th>
-                <th class="text-monospace h3 font-weight-bold">
-                    @Html.DisplayNameFor(model => model.CategoryDescription)
-                </th>
+              
             </tr>
         </thead>
 
@@ -28,9 +26,6 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.CategoryName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CategoryDescription)
                     </td>
                     <td>
                         @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-info btn-lg " })
