@@ -18,11 +18,11 @@ namespace PIDI.Models.Admin
         [Display(Name = "Promoções")]
         public string PromotionName { get; set; }
 
-        [BsonElement("discountAmount")]
+        [BsonElement("DiscountAmount")]
         [Display(Name = "Desconto")]
         public int discountAmount { get; set; }
 
-        [BsonElement("products")]
+        [BsonElement("Products")]
         [Display(Name = "Produtos")]
         public List<ProductModel> products { get; set; }
 
