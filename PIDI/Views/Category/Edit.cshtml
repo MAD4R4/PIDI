@@ -24,15 +24,13 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Retornar", "Index", null, new { @class = "btn btn-info btn-lg" }) &nbsp &nbsp
                     <input type="submit" value="Salvar" class="btn btn-info btn-lg" />
+
                 </div>
             </div>
         </div>
     }   
-
-    <div>
-        @Html.ActionLink("Retornar", "Index", null, new { @class = "btn btn-info btn-lg" })
-    </div>
 
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")

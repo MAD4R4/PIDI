@@ -4,53 +4,46 @@
     ViewBag.Title = "DeletePromotion";
 }
 
-<h2>DeletePromotion</h2>
+<div class="container">
+    <h2>Excluir promoção</h2>
+    &nbsp
+    <h3>Tem certeza que deseja excluir essa promoção?</h3>
+    <di>
+        <hr />
+        <div class="row">
+            <div class="col-lg-2 border-bottom  text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.PromotionName)
+            </div>
+            <div class="col-lg-10 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.PromotionName)
+            </div>
+            <div class="col-lg-2 border-bottom  text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.discountAmount)
+            </div>
+            <div class="col-lg-10 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.discountAmount)
+            </div>
+            <div class="col-lg-2 border-bottom  text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.InitDate)
+            </div>
+            <div class="col-lg-10 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.InitDate)
+            </div>
+            <div class="col-lg-2 border-bottom  text-monospace h4 font-weight-bold">
+                @Html.DisplayNameFor(model => model.EndDate)
+            </div>
+            <div class="col-lg-10 border-bottom text-monospace h4">
+                @Html.DisplayFor(model => model.EndDate)
+            </div>
+            &nbsp
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>PromotionModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PromotionName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PromotionName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.discountAmount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.discountAmount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.InitDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.InitDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                <div class="form-actions no-color">
+                    @Html.ActionLink("Retornar", "Index", null, new { @class = "btn btn-info btn-lg" })&nbsp &nbsp &nbsp
+                    <input type="submit" value="Excluir" class="btn btn-info btn-lg" />
+                </div>
+            }
         </div>
-    }
 </div>

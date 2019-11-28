@@ -4,7 +4,6 @@
     ViewBag.Title = "SearhcProduct";
 }
 
-
 <style>
     .parent {
         display: flex;
@@ -24,6 +23,7 @@
     {
         <div class="child">
             <div class="card h-100">
+
                 <a href='@Url.Action("VisualizeProduct", "Product", new { area = "Product" , id = item.Id})'><img class="card-img-top" src="@Url.Action("ShowPicture", "Product", new {productId = item.Id , id = item.productImages[0].id })" alt=""></a>
                 <div class="card-body">
                     <h4 class="card-title">
@@ -35,6 +35,7 @@
                 <div class="card-footer">
                     @Html.ActionLink("Adicionar ao carrinho", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info " })
                     @Html.ActionLink("Comprar", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info " })
+
                 </div>
             </div>
         </div>

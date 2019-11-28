@@ -3,62 +3,52 @@
 @{
     ViewBag.Title = "Delete";
 }
+    <div class="container">
+        <h2>Excluir produto</h2>
+        &nbsp
+        <h3>Tem certeza que deseja excluir esse produto?</h3>
+        <di>
+            <hr />
+            <div class="row">
+                <div class="col-lg-2 border-bottom  text-monospace h4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </div>
+                <div class="col-lg-10 border-bottom text-monospace h4">
+                    @Html.DisplayFor(model => model.ProductName)
+                </div>
+                <div class="col-lg-2 border-bottom  text-monospace h4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.ProductDescription)
+                </div>
+                <div class="col-lg-10 border-bottom text-monospace h4">
+                    @Html.DisplayFor(model => model.ProductDescription)
+                </div>
+                <div class="col-lg-2 border-bottom  text-monospace h4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Category)
+                </div>
+                <div class="col-lg-10 border-bottom text-monospace h4">
+                    @Html.DisplayFor(model => model.Category)
+                </div>
+                <div class="col-lg-2 border-bottom  text-monospace h4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Preco)
+                </div>
+                <div class="col-lg-10 border-bottom text-monospace h4">
+                    @Html.DisplayFor(model => model.Preco)
+                </div>
+                <div class="col-lg-2 border-bottom  text-monospace h4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </div>
+                <div class="col-lg-10 border-bottom text-monospace h4">
+                    @Html.DisplayFor(model => model.Quantity)
+                </div>
+            </div>
+            &nbsp
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>ProductModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProductDescription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Category)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Preco)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Preco)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
-</div>
+                <div class="form-actions no-color">
+                    @Html.ActionLink("Retornar", "Index", null, new { @class = "btn btn-info btn-lg" })&nbsp &nbsp &nbsp
+                    <input type="submit" value="Excluir" class="btn btn-info btn-lg" />
+                </div>
+            }
+    </div>
