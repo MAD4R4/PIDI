@@ -107,7 +107,9 @@
         <div class="col-lg-8 border-bottom text-monospace h4">
             @Html.DisplayFor(model => model.Total)
         </div>
-    </div>&nbsp
+    </div>&nbsp &nbsp
+</div>
+<div class="col-lg-2 border-bottom ">
     <p>
         @{
             if (Model.orderState == "Aguardando Pagamento")
@@ -116,8 +118,15 @@
             }
             else
             {
-                //COLOCAR OPÇÃO PARA IR PARA O MENU
+
             }
         }
     </p>
+</div>
+<div class="col-lg-2 border-bottom ">
+    <div class="custom-control custom-radio">
+        <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="groupOfDefaultRadios">
+        <label class="custom-control-label" for="defaultGroupExample1"><img src="~/img/boleto.png" alt="img/alt.png" /></label>
+        
+    </div>
 </div>
