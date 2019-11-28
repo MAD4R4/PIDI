@@ -4,94 +4,80 @@
     ViewBag.Title = "EditPromotion";
 }
 
-<h2>EditPromotion</h2>
+<div class="container">
+    <h2>Editar promoção</h2>
 
-<link type="text/css" rel="stylesheet" href="~/Scripts/pytesNET-tail.select-d6454ba/css/bootstrap4/tail.select-default.min.css" />
-<script type="text/javascript" src="~/Scripts/pytesNET-tail.select-d6454ba/js/tail.select.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="~/Scripts/pytesNET-tail.select-d6454ba/css/bootstrap4/tail.select-default.min.css" />
+    <script type="text/javascript" src="~/Scripts/pytesNET-tail.select-d6454ba/js/tail.select.min.js"></script>
 
-@using (Html.BeginForm("EditPromotion", "Promotion", FormMethod.Post, new { onsubmit = "return validate()", id = "promotionForm" }))
-{
-    @Html.AntiForgeryToken()
+    @using (Html.BeginForm("EditPromotion", "Promotion", FormMethod.Post, new { onsubmit = "return validate()", id = "promotionForm" }))
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>PromotionModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.discountAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.discountAmount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.discountAmount, "", new { @class = "text-danger" })
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.discountAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.discountAmount, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.discountAmount, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.InitDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.InitDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.InitDate, "", new { @class = "text-danger" })
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.InitDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.InitDate, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.InitDate, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            <div class="form-group text-monospace h4 font-weight-bold">
+                @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" for="Produtos">Produtos</label>
-            <div class="col-md-10">
-                <select class="select-move" multiple>
-                    <optgroup label="Produtos">
+            <div class="form-group text-monospace h4 font-weight-bold">
+                <label class="control-label col-md-2" for="Produtos">Produtos</label>
+                <div class="col-md-10">
+                    <select class="select-move" multiple>
+                        <optgroup label="Produtos">
 
-                        @{
-                            var filterdList = PIDI.Controllers.Admin.ProductController.Instance.GetProducts(Model.products);
-                            foreach (var item in filterdList)
-                            {
-                                <option value=@item.Id>@item.ProductName</option>
+                            @{
+                                var filterdList = PIDI.Controllers.Admin.ProductController.Instance.GetProducts(Model.products);
+                                foreach (var item in filterdList)
+                                {
+                                    <option value=@item.Id>@item.ProductName</option>
+                                }
                             }
-                        }
-                    </optgroup>
-                </select>
+                        </optgroup>
+                    </select>
 
-                <div class="tail-move-container">
-
-                    @*@{
-                            foreach (var item in Model.products)
-                            {
-                                <div class="select-handle" data-key="@item.Id" data-group="Produtos">@item.ProductName</div>
-                            }
-                        }*@
-
-
-
+                    <div class="tail-move-container">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-monospace h4 font-weight-bold">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Retornar", "Index", null, new { @class = "btn btn-info btn-lg" })&nbsp
+                    <input type="submit" value="Salvar" class="btn btn-info btn-lg" />
                 </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    }
 </div>
-
 
 
 
@@ -124,7 +110,7 @@
                         group: "#",
                         selected: true,
                         disabled: false,
-                        description: "" 
+                        description: ""
                     }
                 });
             }

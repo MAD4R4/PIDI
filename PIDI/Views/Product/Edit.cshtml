@@ -11,33 +11,33 @@
     }
 </style>
 
-<h2>Edit</h2>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
+<div class="container">
+    &nbsp
+    <h2>Editar produto</h2>&nbsp
     <div class="form-horizontal">
-        <h4>ProductModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+        <div class="form-group text-monospace h4 font-weight-bold">
             @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
                 @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group text-monospace h4 font-weight-bold">
             @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
                 @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group text-monospace h4 font-weight-bold">
             @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
             @{
                 var categories = CategoryController.Instance.GetCategories(100);
@@ -71,25 +71,25 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group text-monospace h4 font-weight-bold">
             @Html.LabelFor(model => model.Preco, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Preco, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Preco, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
                 @Html.ValidationMessageFor(model => model.Preco, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group text-monospace h4 font-weight-bold">
             @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
                 @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group text-monospace h4 font-weight-bold">
             <div class="col-md-10">
-                <h3>Images:</h3>
+                <h3 class="text-monospace h4 font-weight-bold">Imagens:</h3>
 
                 @{ var picture = Model.productImages;
 
@@ -102,14 +102,13 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group text-monospace h4 font-weight-bold">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                @Html.ActionLink("Retornar", "Index", null, new { @class = "btn btn-info btn-lg" })&nbsp
+                <input type="submit" value="Salvar" class="btn btn-info btn-lg"/>
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+    }
+

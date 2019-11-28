@@ -4,21 +4,34 @@
     ViewBag.Title = "SearhcProduct";
 }
 
+<style>
+    .exemplo-row-flex-cols .row {
+        min-height: 75rem;
+        width: 100%;
+    }
+
+    .exemplo-row .row > .col, .exemplo-row .row [class^=col-] {
+        padding-top: .100rem;
+        padding-bottom: .100rem;
+    }
+</style>
 @foreach (var item in Model)
 {
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-            <a href='@Url.Action("VisualizeProduct", "Product", new { area = "Product" , id = item.Id})'><img class="card-img-top" src="@Url.Action("ShowPicture", "Product", new {productId = item.Id , id = item.productImages[0].id })" alt=""></a>
-            <div class="card-body">
-                <h4 class="card-title">
-                    <a href="#">@item.ProductName</a>
-                </h4>
-                <h5>R$@item.GetPrice(true)</h5>
-                <p class="card-text">@item.ProductDescription</p>
-            </div>
-            <div class="card-footer">
-                @Html.ActionLink("Adicionar ao carrinho", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info " })
-                @Html.ActionLink("Comprar", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info " })
+    <div class="container exemplo-row-flex-cols exemplo-row ">
+        <div class="row d-flex align-content-center flex-wrap bg-info">
+            <div class="col-lg-5 bg-danger">
+                <a href='@Url.Action("VisualizeProduct", "Product", new { area = "Product" , id = item.Id})'><img class="card-img-top" src="@Url.Action("ShowPicture", "Product", new {productId = item.Id , id = item.productImages[0].id })" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="#">@item.ProductName</a>
+                    </h4>
+                    <h5>R$@item.GetPrice(true)</h5>
+                    <p class="card-text">@item.ProductDescription</p>
+                </div>
+                <div class="card-footer">
+                    @Html.ActionLink("Adicionar ao carrinho", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info btn-lg " })
+                    @Html.ActionLink("Comprar", "OrderNow", "ShoppingCart", new { area = "ShoppingCart", id = item.Id }, new { @class = "btn btn-info btn-lg" })
+                </div>
             </div>
         </div>
     </div>
